@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+  id="com.commontime.cordova.insomnia"
+  version="0.0.1">
+
+  <name>No Sleep plugin</name>
+
+  <js-module src="www/insomnia.js" name="Insomnia">
+    <clobbers target="plugins.insomnia" />
+  </js-module>
+
+  <platform name="android">
+
+    <config-file target="config.xml" parent="/*">
+      <feature name="Insomnia">
+        <param name="android-package" value="com.commontime.cordova.plugins.insomnia.Insomnia" />
+      </feature>
+    </config-file>
+
+    <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
+    <framework src="library-projects/android/insomnia" custom="true" />
+      
+  </platform>
+    
+</plugin>
