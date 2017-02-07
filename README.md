@@ -34,3 +34,20 @@ plugins.insomnia.stopBatteryOptimization( function() {
     console.error(error);
 });
 ```
+
+eg:
+
+```
+#!javascript
+
+
+plugins.insomnia.stopBatteryOptimization( function() {
+    plugins.insomnia.acquireWakeLock( function() {
+        connect();
+    }, function() {
+        alert("broken!");
+    });
+}, function() {
+    alert("Rejected!");
+});
+```
