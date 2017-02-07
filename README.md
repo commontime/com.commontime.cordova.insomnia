@@ -2,8 +2,35 @@
 
 Cordova plugin for keeping your android awake.
 
-plugins.insomnia.acquireWakeLock( success, fail );
 
-plugins.insomnia.releaseWakeLock( success, fail );
+```
+#!javascript
 
-plugins.insomnia.stopBatteryOptimization( success, fail );
+plugins.insomnia.acquireWakeLock( function() {
+    console.info("done");
+}, function(error) {
+    console.error(error);
+});
+```
+
+
+```
+#!javascript
+
+plugins.insomnia.releaseWakeLock( function() {
+    console.info("done");
+}, function(error) {
+    console.error(error);
+});
+```
+
+
+```
+#!javascript
+
+plugins.insomnia.stopBatteryOptimization( function() {
+    console.info("done");
+}, function(error) {
+    console.error(error);
+});
+```
