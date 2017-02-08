@@ -69,3 +69,12 @@ You can also start the wakelock and stop batt optimizations on startup by using 
 
 cordova plugins add ../com.commontime.cordova.insomnia --variable WAKELOCK=false --save --variable BATTOP=false
 ```
+
+```
+#!xml
+
+<plugin name="com.commontime.cordova.insomnia" spec="../com.commontime.cordova.insomnia">
+    <variable name="WAKELOCK" value="false" />
+    <variable name="BATTOP" value="false" />
+</plugin>
+```
