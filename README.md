@@ -50,15 +50,11 @@ eg:
 #!javascript
 
 plugins.insomnia.acquireWakeLock( function() {
-    plugins.insomnia.isIgnoringBatteryOptimization( function(response) {   
-        if( !response.isIgnoringBatteryOptimization ) {
-            plugins.insomnia.stopBatteryOptimization( function() {
-                connect();
-            }, function() {
-                alert("Rejected!");
-            }););
-        }
-    }, function() {});
+    plugins.insomnia.stopBatteryOptimization( function() {
+        connect();
+    }, function() {
+        alert("Rejected!");
+    });       
 }, function() {
     alert("broken!");
 });
