@@ -51,3 +51,13 @@ plugins.insomnia.stopBatteryOptimization( function() {
     alert("Rejected!");
 });
 ```
+
+
+```
+#!javascript
+
+plugins.insomnia.isIgnoringBatteryOptimization( function(response) {   
+    console.log(response.isIgnoringBatteryOptimization);
+}, function() {});
+
+```
