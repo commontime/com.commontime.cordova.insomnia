@@ -7,6 +7,9 @@ module.exports = {
     },
     stopBatteryOptimization: function (successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, 'Insomnia', 'stopBatteryOptimization', []);
+    },
+    isIgnoringBatteryOptimization: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, 'Insomnia', 'isIgnoringBatteryOptimization', []);
     }
 }
 

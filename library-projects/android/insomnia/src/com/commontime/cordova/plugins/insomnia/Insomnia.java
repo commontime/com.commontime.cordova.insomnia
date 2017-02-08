@@ -3,14 +3,16 @@ package com.commontime.cordova.plugins.insomnia;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -25,6 +27,7 @@ public class Insomnia extends CordovaPlugin {
     private static final String ACQUIRE_WAKE_LOCK = "acquireWakeLock";
     private static final String RELEASE_WAKE_LOCK = "releaseWakeLock";
     private static final String STOP_BATTERY_OPTIMIZATION = "stopBatteryOptimization";
+    private static final String IS_IGNORING_BATTERY_OPTIMIZATION = "isIgnoringBatteryOptimization";
 
     String wakeLockTag = UUID.randomUUID().toString();
     private PowerManager.WakeLock lock;
@@ -35,6 +38,22 @@ public class Insomnia extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
+        ApplicationInfo ai = null;
+        try {
+            ai = cordova.getActivity().getPackageManager().getApplicationInfo(cordova.getActivity().getPackageName(), PackageManager.GET_META_DATA);
+            Bundle aBundle = ai.metaData;
+            boolean wakelock = aBundle.getBoolean("acquireWakeLockOnStart");
+            if( wakelock ) {
+                requestWakeLock();
+            }
+            boolean battOp = aBundle.getBoolean("requestStopBatteryOptimizationOnStartup");
+            if( battOp ) {
+                stopBatteryOptimization(null);
+            }
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -53,9 +72,27 @@ public class Insomnia extends CordovaPlugin {
         } else if( action.equals(STOP_BATTERY_OPTIMIZATION)) {
             stopBatteryOptimization(callbackContext);
             return true;
+        } else if( action.equals(IS_IGNORING_BATTERY_OPTIMIZATION)) {
+            checkBatteryOptimization(callbackContext);
+            return true;
         }
 
         return false;
+    }
+
+    private void checkBatteryOptimization(CallbackContext callbackContext) {
+        String packageName = cordova.getActivity().getPackageName();
+        PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(Context.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if( pm.isIgnoringBatteryOptimizations(packageName) ) {
+                callbackContext.success("true");
+            } else {
+                callbackContext.success("false");
+            }
+            return;
+        }
+        callbackContext.success("true");
+        return;
     }
 
     private void requestWakeLock() {
@@ -81,6 +118,7 @@ public class Insomnia extends CordovaPlugin {
                 return;
             }
         }
+        if( callbackContext != null )
         callbackContext.success();
     }
 
@@ -88,9 +126,11 @@ public class Insomnia extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if( requestCode == OP ) {
             if( resultCode == Activity.RESULT_OK ) {
-                batteryCallback.success();
+                if( batteryCallback != null)
+                    batteryCallback.success();
             } else {
-                batteryCallback.error("User rejected");
+                if( batteryCallback != null)
+                    batteryCallback.error("User rejected");
             }
         }
     }
