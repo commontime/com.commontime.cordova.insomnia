@@ -35,29 +35,32 @@ plugins.insomnia.stopBatteryOptimization( function() {
 });
 ```
 
-eg:
-
-```
-#!javascript
-
-
-plugins.insomnia.stopBatteryOptimization( function() {
-    plugins.insomnia.acquireWakeLock( function() {
-        connect();
-    }, function() {
-        alert("broken!");
-    });
-}, function() {
-    alert("Rejected!");
-});
-```
-
-
 ```
 #!javascript
 
 plugins.insomnia.isIgnoringBatteryOptimization( function(response) {   
     console.log(response.isIgnoringBatteryOptimization);
 }, function() {});
+
+```
+
+eg:
+
+```
+#!javascript
+
+plugins.insomnia.acquireWakeLock( function() {
+    plugins.insomnia.isIgnoringBatteryOptimization( function(response) {   
+        if( !response.isIgnoringBatteryOptimization ) {
+            plugins.insomnia.stopBatteryOptimization( function() {
+                connect();
+            }, function() {
+                alert("Rejected!");
+            }););
+        }
+    }, function() {});
+}, function() {
+    alert("broken!");
+});
 
 ```
