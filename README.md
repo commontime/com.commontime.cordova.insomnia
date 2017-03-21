@@ -4,8 +4,6 @@ Cordova plugin for keeping your android awake.
 
 
 ```
-#!javascript
-
 plugins.insomnia.acquireWakeLock( function() {
     console.info("done");
 }, function(error) {
@@ -15,8 +13,6 @@ plugins.insomnia.acquireWakeLock( function() {
 
 
 ```
-#!javascript
-
 plugins.insomnia.releaseWakeLock( function() {
     console.info("done");
 }, function(error) {
@@ -26,8 +22,6 @@ plugins.insomnia.releaseWakeLock( function() {
 
 
 ```
-#!javascript
-
 plugins.insomnia.stopBatteryOptimization( function() {
     console.info("done");
 }, function(error) {
@@ -36,8 +30,6 @@ plugins.insomnia.stopBatteryOptimization( function() {
 ```
 
 ```
-#!javascript
-
 plugins.insomnia.isIgnoringBatteryOptimization( function(response) {   
     console.log(response.isIgnoringBatteryOptimization);
 }, function() {});
@@ -47,8 +39,6 @@ plugins.insomnia.isIgnoringBatteryOptimization( function(response) {
 eg:
 
 ```
-#!javascript
-
 plugins.insomnia.acquireWakeLock( function() {
     plugins.insomnia.stopBatteryOptimization( function() {
         connect();
@@ -65,16 +55,12 @@ Alternatively, you can start the wakelock and stop battery optimizations on star
 
 
 ```
-#!bash
-
 cordova plugins add ../com.commontime.cordova.insomnia --variable WAKELOCK=false --save --variable BATTOP=false
 ```
 
 ```
-#!xml
-
 <plugin name="com.commontime.cordova.insomnia" spec="../com.commontime.cordova.insomnia">
     <variable name="WAKELOCK" value="true" />
-    <variable name="BATTOP" value="rue" />
+    <variable name="BATTOP" value="true" />
 </plugin>
 ```
