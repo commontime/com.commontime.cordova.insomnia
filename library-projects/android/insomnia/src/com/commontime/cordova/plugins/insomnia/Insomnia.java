@@ -1,13 +1,16 @@
 package com.commontime.cordova.plugins.insomnia;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 
@@ -32,6 +35,26 @@ public class Insomnia extends CordovaPlugin {
     String wakeLockTag = UUID.randomUUID().toString();
     private PowerManager.WakeLock lock;
     private CallbackContext batteryCallback;
+    private ForegroundService mForegroundService;
+    private boolean mBound;
+    private String fgServiceMainString;
+    private String fgServiceSubString;
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            ForegroundService.LocalBinder binder = (ForegroundService.LocalBinder) service;
+            mForegroundService = binder.getService();
+            mBound = true;
+            mForegroundService.startForeground(fgServiceMainString, fgServiceSubString);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     public Insomnia() {
     }
@@ -49,6 +72,15 @@ public class Insomnia extends CordovaPlugin {
             boolean battOp = aBundle.getBoolean("requestStopBatteryOptimizationOnStartup");
             if( battOp ) {
                 stopBatteryOptimization(null);
+            }
+            boolean fgService = aBundle.getBoolean("useForegroundService");
+            if( fgService ) {
+
+                fgServiceMainString = aBundle.getString("fgServiceMainString", "Foreground Service");
+                fgServiceSubString = aBundle.getString("fgServiceSubString", "Preventing app from being stopped");
+
+                Intent intent = new Intent(cordova.getActivity(), ForegroundService.class);
+                cordova.getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             }
 
         } catch (PackageManager.NameNotFoundException e) {

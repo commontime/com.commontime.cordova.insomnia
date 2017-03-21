@@ -20,6 +20,9 @@
       
     <preference name="WAKELOCK" default="false" />
     <preference name="BATTOP" default="false" />
+    <preference name="FGSERVICEENABLED" default="false" />
+    <preference name="FGSERVICEMAIN" default="Foreground Service" />
+    <preference name="FGSERVICESUB" default="Preventing App Stopping" />
       
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
         <meta-data
@@ -27,7 +30,17 @@
         android:value="$WAKELOCK" />
         <meta-data
         android:name="requestStopBatteryOptimizationOnStartup"
-        android:value="$BATTOP" />  
+        android:value="$BATTOP" />
+        <meta-data
+        android:name="useForegroundService"
+        android:value="$FGSERVICEENABLED" />
+        <meta-data
+        android:name="fgServiceMainString"
+        android:value="$FGSERVICEMAIN" />
+        <meta-data
+        android:name="fgServiceSubString"
+        android:value="$FGSERVICESUB" />
+
     </config-file>
 
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
