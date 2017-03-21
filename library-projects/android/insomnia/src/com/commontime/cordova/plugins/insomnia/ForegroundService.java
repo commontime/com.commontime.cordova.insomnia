@@ -34,6 +34,9 @@ public class ForegroundService extends Service {
             int resId = getResources().getIdentifier("ic_stat_name", "drawable", getPackageName());
             Bitmap icon = BitmapFactory.decodeResource(getResources(), resId);
 
+            int bigId = getResources().getIdentifier("screen", "drawable", getPackageName());
+            Bitmap bigIcon = BitmapFactory.decodeResource(getResources(), resId);
+
             Notification notification = null;
 
             notification = new Notification.Builder(this)
@@ -41,7 +44,7 @@ public class ForegroundService extends Service {
                     .setTicker(main)
                     .setContentText(sub)
                     .setSmallIcon(resId)
-                    .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
+                    .setLargeIcon(bigIcon)
                     .setContentIntent(null)
                     .setOngoing(true).build();
             startForeground(NOTIFIC, notification);
