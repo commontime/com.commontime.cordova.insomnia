@@ -3,5 +3,5 @@
     package="com.commontime.insomnialibrary">
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="25" />
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="25" />
 </manifest>

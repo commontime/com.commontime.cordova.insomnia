@@ -31,7 +31,7 @@
     </config-file>
 
     <edit-config file="AndroidManifest.xml" target="/manifest/uses-sdk" mode="merge">
-    	<uses-sdk android:minSdkVersion="14" android:maxSdkVersion="25" />
+    	<uses-sdk android:minSdkVersion="15" android:maxSdkVersion="25" />
     </edit-config>
                  
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
