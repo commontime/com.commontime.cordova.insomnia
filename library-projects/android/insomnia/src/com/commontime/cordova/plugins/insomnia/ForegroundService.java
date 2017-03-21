@@ -35,7 +35,7 @@ public class ForegroundService extends Service {
             Bitmap icon = BitmapFactory.decodeResource(getResources(), resId);
 
             int bigId = getResources().getIdentifier("screen", "drawable", getPackageName());
-            Bitmap bigIcon = BitmapFactory.decodeResource(getResources(), resId);
+            Bitmap bigIcon = BitmapFactory.decodeResource(getResources(), bigId);
 
             Notification notification = null;
 
