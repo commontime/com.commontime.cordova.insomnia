@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
   id="com.commontime.cordova.insomnia"
-  version="0.0.6">
+  version="0.0.7">
 
   <name>No Sleep plugin</name>
 
@@ -23,24 +23,24 @@
     <preference name="FGSERVICEENABLED" default="false" />
     <preference name="FGSERVICEMAIN" default="Foreground Service" />
     <preference name="FGSERVICESUB" default="Preventing App Stopping" />
+    <preference name="APPRESTARTSERVICE" default="false" />
+    <preference name="STARTONBOOT" default="false" />
       
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-        <meta-data
-        android:name="acquireWakeLockOnStart"
-        android:value="$WAKELOCK" />
-        <meta-data
-        android:name="requestStopBatteryOptimizationOnStartup"
-        android:value="$BATTOP" />
-        <meta-data
-        android:name="useForegroundService"
-        android:value="$FGSERVICEENABLED" />
-        <meta-data
-        android:name="fgServiceMainString"
-        android:value="$FGSERVICEMAIN" />
-        <meta-data
-        android:name="fgServiceSubString"
-        android:value="$FGSERVICESUB" />
+        <meta-data android:name="acquireWakeLockOnStart" android:value="$WAKELOCK" />
+        <meta-data android:name="requestStopBatteryOptimizationOnStartup" android:value="$BATTOP" />
+        <meta-data android:name="useForegroundService" android:value="$FGSERVICEENABLED" />
+        <meta-data android:name="fgServiceMainString" android:value="$FGSERVICEMAIN" />
+        <meta-data android:name="fgServiceSubString" android:value="$FGSERVICESUB" />
+        <meta-data android:name="appRestartService" android:value="$APPRESTARTSERVICE" />
+        <meta-data android:name="startOnBoot" android:value="$STARTONBOOT" />
+    </config-file>
 
+    <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
+        <intent-filter>
+            <action android:name="com.commontime.cordova.insomnia.BOOT" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
     </config-file>
 
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />

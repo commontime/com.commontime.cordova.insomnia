@@ -11,7 +11,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.PowerManager;
+import android.os.RemoteException;
 import android.provider.Settings;
 
 import org.apache.cordova.CallbackContext;
@@ -81,6 +84,15 @@ public class Insomnia extends CordovaPlugin {
 
                 Intent intent = new Intent(cordova.getActivity(), ForegroundService.class);
                 cordova.getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            }
+
+            boolean appRestartService = aBundle.getBoolean("appRestartService");
+            if(appRestartService) {
+                Intent i = new Intent(cordova.getActivity(), RestarterService.class);
+                cordova.getActivity().startService(i);
+
+                Intent i2 = new Intent(cordova.getActivity(), RestarterService.class);
+                cordova.getActivity().bindService(i2, connection, Context.BIND_AUTO_CREATE);
             }
 
         } catch (PackageManager.NameNotFoundException e) {
@@ -166,5 +178,27 @@ public class Insomnia extends CordovaPlugin {
             }
         }
     }
+
+    public Messenger service;
+    private ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder svc) {
+            System.out.println("connected");
+            service = new Messenger(svc);
+            Message msg = Message.obtain(null, 0);
+            msg.replyTo = service;
+            try {
+                service.send(msg);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
 }

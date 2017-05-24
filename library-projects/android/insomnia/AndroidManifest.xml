@@ -8,12 +8,31 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application>
         <service
             android:name="com.commontime.cordova.plugins.insomnia.ForegroundService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <service
+            android:name="com.commontime.cordova.plugins.insomnia.RestarterService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.commontime.cordova.plugins.insomnia.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
