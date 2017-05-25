@@ -88,11 +88,11 @@ public class Insomnia extends CordovaPlugin {
 
             boolean appRestartService = aBundle.getBoolean("appRestartService");
             if(appRestartService) {
-                Intent i = new Intent(cordova.getActivity(), RestarterService.class);
-                cordova.getActivity().startService(i);
-
                 Intent i2 = new Intent(cordova.getActivity(), RestarterService.class);
                 cordova.getActivity().bindService(i2, connection, Context.BIND_AUTO_CREATE);
+
+                Intent i = new Intent(cordova.getActivity(), RestarterService.class);
+                cordova.getActivity().startService(i);
             }
 
         } catch (PackageManager.NameNotFoundException e) {
