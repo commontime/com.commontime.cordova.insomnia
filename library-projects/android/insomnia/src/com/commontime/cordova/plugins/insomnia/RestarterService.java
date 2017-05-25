@@ -13,11 +13,19 @@ public class RestarterService extends Service {
     }
 
     public void onCreate() {
-        if(!MonitorSingleton.getInstance().connected) {
-            Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
-        }
+        // Wait and see if it connects
+        Handler h = new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!MonitorSingleton.getInstance().connected) {
+                    Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.setPackage(RestarterService.this.getPackageName());
+                    startActivity(i);
+                }
+            }
+        }, 1000);
     }
 
     @Override
