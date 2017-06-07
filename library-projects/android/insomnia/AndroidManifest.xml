@@ -33,6 +33,15 @@
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.commontime.cordova.plugins.insomnia.BlankActivity">
+            <intent-filter>
+                <action android:name="com.commontime.cordova.plugins.insomnia.BlankActivity"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

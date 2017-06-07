@@ -16,6 +16,8 @@ import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.provider.Settings;
+import android.view.Window;
+import android.view.WindowManager;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -34,6 +36,7 @@ public class Insomnia extends CordovaPlugin {
     private static final String RELEASE_WAKE_LOCK = "releaseWakeLock";
     private static final String STOP_BATTERY_OPTIMIZATION = "stopBatteryOptimization";
     private static final String IS_IGNORING_BATTERY_OPTIMIZATION = "isIgnoringBatteryOptimization";
+    private static final String SWITCH_ON_SCREEN_AND_FOREGROUND = "switchOnScreenAndForeground";
 
     String wakeLockTag = UUID.randomUUID().toString();
     private PowerManager.WakeLock lock;
@@ -98,7 +101,18 @@ public class Insomnia extends CordovaPlugin {
     }
 
     @Override
+    public void onResume(boolean multiTask) {
+        super.onResume(multiTask);
+        Window window = cordova.getActivity().getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+    }
+
+    @Override
     public void onDestroy() {
+        super.onDestroy();
+        cordova.getActivity().unbindService(connection);
     }
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -116,9 +130,31 @@ public class Insomnia extends CordovaPlugin {
         } else if( action.equals(IS_IGNORING_BATTERY_OPTIMIZATION)) {
             checkBatteryOptimization(callbackContext);
             return true;
+        } else if( action.equals(SWITCH_ON_SCREEN_AND_FOREGROUND)) {
+            switchOnScreenAndForeground(callbackContext);
+            return true;
         }
 
         return false;
+    }
+
+    private void switchOnScreenAndForeground(final CallbackContext callbackContext) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Intent i2 = new Intent("com.commontime.cordova.plugins.insomnia.BlankActivity");
+                i2.setPackage(cordova.getActivity().getPackageName());
+                cordova.getActivity().startActivity(i2);
+
+                Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
+                i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                i.setPackage(cordova.getActivity().getPackageName());
+                cordova.getActivity().startActivity(i);
+                callbackContext.success();
+            }
+        });
+
     }
 
     private void checkBatteryOptimization(CallbackContext callbackContext) {

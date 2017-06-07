@@ -10,6 +10,9 @@ module.exports = {
     },
     isIgnoringBatteryOptimization: function (successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, 'Insomnia', 'isIgnoringBatteryOptimization', []);
+    },
+    switchOnScreenAndForeground: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, 'Insomnia', 'switchOnScreenAndForeground', []);
     }
 }
 

@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
+import android.util.Log;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class RestarterService extends Service {
+
+    String TAG = RestarterService.class.getSimpleName();
+
     private Messenger messenger = new Messenger(new IncomingHandler());
     private CountDownLatch cdl;
 
@@ -18,13 +22,15 @@ public class RestarterService extends Service {
     }
 
     public void onCreate() {
+        Log.i(TAG, "onCreate");
         Intent i = new Intent(this, RestarterService.class);
         this.startService(i);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!MonitorSingleton.getInstance().connected) {
+        Log.i(TAG, "onStartCommand, intent: " + intent);
+        if( intent == null) {
             Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setPackage(RestarterService.this.getPackageName());
@@ -35,16 +41,22 @@ public class RestarterService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        MonitorSingleton.getInstance().connected = true;
+        Log.i(TAG, "onBind");
         return messenger.getBinder();
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        MonitorSingleton.getInstance().connected = false;
+        Log.i(TAG, "onUnbind");
+        System.exit(0);
         return false;
     }
 
     private class IncomingHandler extends Handler {
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "onDestroy");
     }
 }
