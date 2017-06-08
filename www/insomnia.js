@@ -11,8 +11,7 @@ module.exports = {
     isIgnoringBatteryOptimization: function (successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, 'Insomnia', 'isIgnoringBatteryOptimization', []);
     },
-    switchOnScreenAndForeground: function (successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, 'Insomnia', 'switchOnScreenAndForeground', []);
+    switchOnScreenAndForeground: function (successCallback, errorCallback, options) {
+        cordova.exec(successCallback, errorCallback, 'Insomnia', 'switchOnScreenAndForeground', [options]);
     }
 }
-

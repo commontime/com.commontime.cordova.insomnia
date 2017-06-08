@@ -23,6 +23,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -45,6 +46,11 @@ public class Insomnia extends CordovaPlugin {
     private boolean mBound;
     private String fgServiceMainString;
     private String fgServiceSubString;
+
+    private boolean showWhenLocked;
+    private boolean turnScreenOn;
+    private boolean dismissKeyGuard;
+
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -104,9 +110,15 @@ public class Insomnia extends CordovaPlugin {
     public void onResume(boolean multiTask) {
         super.onResume(multiTask);
         Window window = cordova.getActivity().getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        if( showWhenLocked ) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        }
+        if( turnScreenOn ) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        }
+        if( dismissKeyGuard ) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
     }
 
     @Override
@@ -131,6 +143,10 @@ public class Insomnia extends CordovaPlugin {
             checkBatteryOptimization(callbackContext);
             return true;
         } else if( action.equals(SWITCH_ON_SCREEN_AND_FOREGROUND)) {
+            JSONObject options = args.getJSONObject(0);
+            showWhenLocked = options.optBoolean("showWhenLocked", true);
+            turnScreenOn = options.optBoolean("turnScreenOn", true);
+            dismissKeyGuard = options.optBoolean("dismissKeyGuard", true);
             switchOnScreenAndForeground(callbackContext);
             return true;
         }
