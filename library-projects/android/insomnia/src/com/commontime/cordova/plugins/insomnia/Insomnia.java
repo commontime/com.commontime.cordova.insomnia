@@ -50,6 +50,7 @@ public class Insomnia extends CordovaPlugin {
     private boolean showWhenLocked;
     private boolean turnScreenOn;
     private boolean dismissKeyGuard;
+    private boolean keepScreenOn;
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -119,6 +120,9 @@ public class Insomnia extends CordovaPlugin {
         if( dismissKeyGuard ) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         }
+        if( keepScreenOn ) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
     }
 
     @Override
@@ -147,6 +151,7 @@ public class Insomnia extends CordovaPlugin {
             showWhenLocked = options.optBoolean("showWhenLocked", true);
             turnScreenOn = options.optBoolean("turnScreenOn", true);
             dismissKeyGuard = options.optBoolean("dismissKeyGuard", true);
+            keepScreenOn = options.optBoolean("keepScreenOn", true);
             switchOnScreenAndForeground(callbackContext);
             return true;
         }
