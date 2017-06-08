@@ -13,5 +13,8 @@ module.exports = {
     },
     switchOnScreenAndForeground: function (successCallback, errorCallback, options) {
         cordova.exec(successCallback, errorCallback, 'Insomnia', 'switchOnScreenAndForeground', [options]);
+    },
+    clearKeepScreenOn: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, 'Insomnia', 'clearKeepScreenOn', []);
     }
 }

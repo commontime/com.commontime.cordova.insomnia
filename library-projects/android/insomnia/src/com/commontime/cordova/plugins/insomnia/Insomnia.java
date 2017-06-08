@@ -38,6 +38,7 @@ public class Insomnia extends CordovaPlugin {
     private static final String STOP_BATTERY_OPTIMIZATION = "stopBatteryOptimization";
     private static final String IS_IGNORING_BATTERY_OPTIMIZATION = "isIgnoringBatteryOptimization";
     private static final String SWITCH_ON_SCREEN_AND_FOREGROUND = "switchOnScreenAndForeground";
+    private static final String CLEAR_KEEP_SCREEN_ON = "clearKeepScreenOn";
 
     String wakeLockTag = UUID.randomUUID().toString();
     private PowerManager.WakeLock lock;
@@ -154,9 +155,23 @@ public class Insomnia extends CordovaPlugin {
             keepScreenOn = options.optBoolean("keepScreenOn", true);
             switchOnScreenAndForeground(callbackContext);
             return true;
+        } else if( action.equals(CLEAR_KEEP_SCREEN_ON)) {
+            clearKeepScreenOn(callbackContext);
+            return true;
         }
 
         return false;
+    }
+
+    private void clearKeepScreenOn(final CallbackContext callbackContext) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Window window = cordova.getActivity().getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                callbackContext.success();
+            }
+        });
     }
 
     private void switchOnScreenAndForeground(final CallbackContext callbackContext) {
