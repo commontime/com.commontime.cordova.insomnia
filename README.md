@@ -55,20 +55,33 @@ Alternatively, you can start the wakelock and stop battery optimizations on star
 
 
 ```
-cordova plugins add ../com.commontime.cordova.insomnia --variable WAKELOCK=false --save --variable BATTOP=false
+cordova plugins add ../com.commontime.cordova.insomnia 
+    --variable WAKELOCK=true
+    --variable BATTOP=true
+    --variable FGSERVICEENABLED=true
+    --variable FGSERVICEMAIN="Foreground service"
+    --variable FGSERVICESUB="..."
+    --variable APPRESTARTSERVICE=true
+    --variable STARTONBOOT=true
+    --save
 ```
 
 ```
 <plugin name="com.commontime.cordova.insomnia" spec="../com.commontime.cordova.insomnia">
-    <variable name="WAKELOCK" value="true" />
-    <variable name="BATTOP" value="true" />
+    <variable name="WAKELOCK" value="true"/>
+    <variable name="BATTOP" value="true"/>
+    <variable name="FGSERVICEENABLED" value="true"/>
+    <variable name="FGSERVICEMAIN" value="Incident Responder"/>
+    <variable name="FGSERVICESUB" value="..."/>
+    <variable name="APPRESTARTSERVICE" value="true"/>
+    <variable name="STARTONBOOT" value="true"/>
 </plugin>
 ```
 
 ## Turning on the screen and unlocking for app
 
 ```
-plugins.insomnia.switchOnScreenAndForeground(function() {$success();}, function() {$fail();}, {
+plugins.insomnia.switchOnScreenAndForeground(function() {console.log("done");}, function() {console.error("error");}, {
   "showWhenLocked": true,  // default true
   "turnScreenOn": true,    // default true
   "dismissKeyGuard": true, // default true
@@ -92,7 +105,11 @@ Cause the keyguard to be dismissed, only if it is not a secure lock keyguard. Be
 
 As long as this window is visible to the user, keep the device's screen turned on and bright.
 
+```
+plugins.insomnia.clearKeepScreenOn(function() {console.log("done");}, function() {console.error("failed!"});
+```
 
+Allows the screen to go off again
 
 
 
