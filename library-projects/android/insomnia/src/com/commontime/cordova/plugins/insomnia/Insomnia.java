@@ -178,8 +178,8 @@ public class Insomnia extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 Intent i2 = new Intent("com.commontime.cordova.plugins.insomnia.BlankActivity");
+                i2.putExtra("turnScreenOn", turnScreenOn);
                 i2.setPackage(cordova.getActivity().getPackageName());
                 cordova.getActivity().startActivity(i2);
 
@@ -190,7 +190,6 @@ public class Insomnia extends CordovaPlugin {
                 callbackContext.success();
             }
         });
-
     }
 
     private void checkBatteryOptimization(CallbackContext callbackContext) {
