@@ -30,8 +30,12 @@ public class BlankActivity extends Activity {
                 i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 i.setPackage(getPackageName());
                 startActivity(i);
-                finish();
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    public void run() {
+                        finish();
+                    }
+                }, 1000);
             }
-        }, 1000);
+        }, 100);
     }
 }
