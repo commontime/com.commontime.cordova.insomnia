@@ -55,8 +55,6 @@ public class Insomnia extends CordovaPlugin {
     private boolean dismissKeyGuard;
     private boolean keepScreenOn;
 
-    private boolean inFront;
-
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -128,14 +126,6 @@ public class Insomnia extends CordovaPlugin {
         if( keepScreenOn ) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-
-        inFront = true;
-    }
-
-    @Override
-    public void onPause(boolean multiTask) {
-        super.onPause(multiTask);
-        inFront = false;
     }
 
     @Override
@@ -190,17 +180,12 @@ public class Insomnia extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(inFront) {
-                    Intent i = new Intent("com.commontime.cordova.plugins.insomnia.BlankActivity");
-                    i.putExtra("turnScreenOn", turnScreenOn);
-                    i.setPackage(cordova.getActivity().getPackageName());
-                    cordova.getActivity().startActivity(i);
-                } else {
-                    Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
-                    i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    i.setPackage(cordova.getActivity().getPackageName());
-                    cordova.getActivity().startActivity(i);
-                }
+
+
+                Intent i2 = new Intent("com.commontime.cordova.plugins.insomnia.BlankActivity");
+                i2.putExtra("turnScreenOn", turnScreenOn);
+                i2.setPackage(cordova.getActivity().getPackageName());
+                cordova.getActivity().startActivity(i2);
             }
         });
     }
