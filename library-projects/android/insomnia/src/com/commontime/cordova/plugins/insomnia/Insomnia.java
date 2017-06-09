@@ -10,7 +10,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.PowerManager;
@@ -182,12 +184,6 @@ public class Insomnia extends CordovaPlugin {
                 i2.putExtra("turnScreenOn", turnScreenOn);
                 i2.setPackage(cordova.getActivity().getPackageName());
                 cordova.getActivity().startActivity(i2);
-
-                Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
-                i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                i.setPackage(cordova.getActivity().getPackageName());
-                cordova.getActivity().startActivity(i);
-                callbackContext.success();
             }
         });
     }

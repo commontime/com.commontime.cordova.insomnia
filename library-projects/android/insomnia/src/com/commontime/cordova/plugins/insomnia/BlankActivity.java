@@ -32,6 +32,6 @@ public class BlankActivity extends Activity {
                 startActivity(i);
                 finish();
             }
-        }, 100);
+        }, 1000);
     }
 }
