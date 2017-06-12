@@ -185,6 +185,7 @@ public class Insomnia extends CordovaPlugin {
                 i2.putExtra("turnScreenOn", turnScreenOn);
                 i2.setPackage(cordova.getActivity().getPackageName());
                 cordova.getActivity().startActivity(i2);
+                callbackContext.success();
             }
         });
     }
