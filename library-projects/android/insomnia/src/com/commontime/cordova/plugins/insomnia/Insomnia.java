@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.hardware.display.DisplayManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.provider.Settings;
+import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -28,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.UUID;
+
+import static android.content.Context.POWER_SERVICE;
 
 public class Insomnia extends CordovaPlugin {
 
@@ -54,6 +58,8 @@ public class Insomnia extends CordovaPlugin {
     private boolean turnScreenOn;
     private boolean dismissKeyGuard;
     private boolean keepScreenOn;
+
+    boolean foreground = false;
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -126,6 +132,14 @@ public class Insomnia extends CordovaPlugin {
         if( keepScreenOn ) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
+        foreground = true;
+    }
+
+    @Override
+    public void onPause(boolean multitask) {
+        super.onPause(multitask);
+        foreground = false;
     }
 
     @Override
@@ -177,22 +191,38 @@ public class Insomnia extends CordovaPlugin {
     }
 
     private void switchOnScreenAndForeground(final CallbackContext callbackContext) {
-        cordova.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                Intent i2 = new Intent("com.commontime.cordova.plugins.insomnia.BlankActivity");
-                i2.putExtra("turnScreenOn", turnScreenOn);
-                i2.setPackage(cordova.getActivity().getPackageName());
-                cordova.getActivity().startActivity(i2);
-                callbackContext.success();
+        boolean screenOn = false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            PowerManager powerManager = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
+            if (powerManager.isInteractive()) {
+                screenOn = true;
             }
-        });
+        } else {
+            PowerManager powerManager = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
+            if (powerManager.isScreenOn()) {
+                screenOn = true;
+            }
+        }
+
+        if (!(screenOn && foreground)) {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i2 = new Intent("com.commontime.cordova.plugins.insomnia.BlankActivity");
+                    i2.putExtra("turnScreenOn", turnScreenOn);
+                    i2.setPackage(cordova.getActivity().getPackageName());
+                    cordova.getActivity().startActivity(i2);
+                }
+            });
+        }
+        callbackContext.success();
     }
 
     private void checkBatteryOptimization(CallbackContext callbackContext) {
         String packageName = cordova.getActivity().getPackageName();
-        PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if( pm.isIgnoringBatteryOptimizations(packageName) ) {
                 callbackContext.success("true");
@@ -206,7 +236,7 @@ public class Insomnia extends CordovaPlugin {
     }
 
     private void requestWakeLock() {
-        PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
         lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, wakeLockTag);
         lock.acquire();
     }
@@ -218,7 +248,7 @@ public class Insomnia extends CordovaPlugin {
     private void stopBatteryOptimization(CallbackContext callbackContext) {
         Intent intent = new Intent();
         String packageName = cordova.getActivity().getPackageName();
-        PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
                 intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);

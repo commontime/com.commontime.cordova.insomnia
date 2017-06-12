@@ -34,13 +34,6 @@ public class BlankActivity extends Activity {
                         startActivity(i);
                     }
                 });
-//                SystemClock.sleep(2000);
-//                BlankActivity.this.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        BlankActivity.this.moveTaskToBack(true);
-//                    }
-//                });
             }
         }).start();
     }
