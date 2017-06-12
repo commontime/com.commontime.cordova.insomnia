@@ -38,7 +38,7 @@ public class BlankActivity extends Activity {
                 BlankActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        BlankActivity.this.finish();
+                        BlankActivity.this.moveTaskToBack(true);
                     }
                 });
             }
