@@ -2,9 +2,7 @@ package com.commontime.cordova.plugins.insomnia;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.SystemClock;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -23,19 +21,27 @@ public class BlankActivity extends Activity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         }
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
-                i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                i.setPackage(getPackageName());
-                startActivity(i);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                SystemClock.sleep(100);
+                BlankActivity.this.runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
-                        finish();
+                        Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
+                        i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        i.setPackage(getPackageName());
+                        startActivity(i);
                     }
-                }, 2000);
+                });
+                SystemClock.sleep(2000);
+                BlankActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        BlankActivity.this.finish();
+                    }
+                });
             }
-        }, 100);
+        }).start();
     }
 }
