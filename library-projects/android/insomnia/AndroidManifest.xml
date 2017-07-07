@@ -41,6 +41,13 @@
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
         </activity>
+		
+		<activity android:name="com.commontime.cordova.plugins.insomnia.LauncherActivity">
+            <intent-filter>
+                <action android:name="com.commontime.cordova.insomnia.BOOT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
     </application>
 

@@ -38,9 +38,10 @@
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
         <intent-filter>
-            <action android:name="com.commontime.cordova.insomnia.BOOT" />
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+			<action android:name="android.intent.action.VIEW" />
+			<category android:name="android.intent.category.DEFAULT" />
+			<data android:scheme="insomniaboot"/>
+		</intent-filter>
     </config-file>
 
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
