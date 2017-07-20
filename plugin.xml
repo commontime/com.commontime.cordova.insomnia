@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
   id="com.commontime.cordova.insomnia"
-  version="0.0.15">
+  version="0.0.17">
 
   <name>No Sleep plugin</name>
 
@@ -38,10 +38,10 @@
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
         <intent-filter>
-			<action android:name="android.intent.action.VIEW" />
-			<category android:name="android.intent.category.DEFAULT" />
-			<data android:scheme="insomniaboot"/>
-		</intent-filter>
+		    <action android:name="android.intent.action.VIEW" />
+		    <category android:name="android.intent.category.DEFAULT" />
+		    <data android:scheme="insomniaboot"/>
+	    </intent-filter>
     </config-file>
 
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
