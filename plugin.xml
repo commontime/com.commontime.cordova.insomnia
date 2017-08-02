@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
   id="com.commontime.cordova.insomnia"
-  version="0.0.20">
+  version="0.0.21">
 
   <name>No Sleep plugin</name>
 
@@ -46,7 +46,6 @@
 
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
     <framework src="library-projects/android/insomnia" custom="true" />
-    <framework src="com.pixplicity.easyprefs:library:1.8.1@aar" />
       
   </platform>
     

@@ -4,6 +4,7 @@ repositories {
 }
 
 dependencies {
+    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
 }
 
 android {
