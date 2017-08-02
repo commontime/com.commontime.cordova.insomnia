@@ -7,19 +7,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.hardware.display.DisplayManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.RemoteException;
-import android.provider.Settings;
-import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -45,6 +40,7 @@ public class Insomnia extends CordovaPlugin {
     private static final String IS_IGNORING_BATTERY_OPTIMIZATION = "isIgnoringBatteryOptimization";
     private static final String SWITCH_ON_SCREEN_AND_FOREGROUND = "switchOnScreenAndForeground";
     private static final String CLEAR_KEEP_SCREEN_ON = "clearKeepScreenOn";
+    private static final String ENABLE_RESTART_SERVICE = "enableRestartService";
 
     String wakeLockTag = UUID.randomUUID().toString();
     private PowerManager.WakeLock lock;
@@ -83,6 +79,9 @@ public class Insomnia extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
+
+        Settings.getInstance().setup(cordova.getActivity());
+
         ApplicationInfo ai = null;
         try {
             ai = cordova.getActivity().getPackageManager().getApplicationInfo(cordova.getActivity().getPackageName(), PackageManager.GET_META_DATA);
@@ -174,10 +173,15 @@ public class Insomnia extends CordovaPlugin {
         } else if( action.equals(CLEAR_KEEP_SCREEN_ON)) {
             clearKeepScreenOn(callbackContext);
             return true;
+        } else if( action.equals(ENABLE_RESTART_SERVICE)) {
+            boolean enable = args.getJSONObject(0).getBoolean("enable");
+            Settings.enableRestartService(enable);
+            return true;
         }
 
         return false;
     }
+
 
     private void clearKeepScreenOn(final CallbackContext callbackContext) {
         cordova.getActivity().runOnUiThread(new Runnable() {
@@ -254,7 +258,7 @@ public class Insomnia extends CordovaPlugin {
         PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                 intent.setData(Uri.parse("package:" + packageName));
                 batteryCallback = callbackContext;
                 cordova.startActivityForResult(this, intent, OP);

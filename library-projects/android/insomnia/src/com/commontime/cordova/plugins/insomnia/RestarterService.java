@@ -7,6 +7,8 @@ import android.os.IBinder;
 import android.os.Messenger;
 import android.util.Log;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +25,7 @@ public class RestarterService extends Service {
 
     public void onCreate() {
         Log.i(TAG, "onCreate");
+        Settings.getInstance().setup(this);
         Intent i = new Intent(this, RestarterService.class);
         this.startService(i);
     }
@@ -30,13 +33,19 @@ public class RestarterService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "onStartCommand, intent: " + intent);
-        if( intent == null) {
-            Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.setPackage(RestarterService.this.getPackageName());
-            startActivity(i);
+        if( intent == null ) {
+            if(Settings.getEnableRestartService(true)) {
+                doLaunch();
+            }
         }
         return Service.START_STICKY;
+    }
+
+    private void doLaunch() {
+        Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setPackage(RestarterService.this.getPackageName());
+        startActivity(i);
     }
 
     @Override
