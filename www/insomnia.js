@@ -1,4 +1,4 @@
-cordova.define("com.commontime.cordova.insomnia.Insomnia", function(require, exports, module) {
+
 module.exports = {
     acquireWakeLock: function (successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, 'Insomnia', 'acquireWakeLock', []);
@@ -26,5 +26,3 @@ module.exports = {
     }
 
 }
-
-});
