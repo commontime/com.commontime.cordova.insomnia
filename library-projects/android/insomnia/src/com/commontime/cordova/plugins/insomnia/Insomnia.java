@@ -41,6 +41,7 @@ public class Insomnia extends CordovaPlugin {
     private static final String SWITCH_ON_SCREEN_AND_FOREGROUND = "switchOnScreenAndForeground";
     private static final String CLEAR_KEEP_SCREEN_ON = "clearKeepScreenOn";
     private static final String ENABLE_RESTART_SERVICE = "enableRestartService";
+    private static final String ENABLE_FOREGROUND_SERVICE = "enableForegroundService";
 
     String wakeLockTag = UUID.randomUUID().toString();
     private PowerManager.WakeLock lock;
@@ -56,6 +57,8 @@ public class Insomnia extends CordovaPlugin {
     private boolean keepScreenOn;
 
     boolean foreground = false;
+
+    private Bundle configBundle;
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -86,6 +89,7 @@ public class Insomnia extends CordovaPlugin {
         try {
             ai = cordova.getActivity().getPackageManager().getApplicationInfo(cordova.getActivity().getPackageName(), PackageManager.GET_META_DATA);
             Bundle aBundle = ai.metaData;
+            configBundle = aBundle;
             boolean wakelock = aBundle.getBoolean("acquireWakeLockOnStart");
             if( wakelock ) {
                 requestWakeLock();
@@ -96,12 +100,7 @@ public class Insomnia extends CordovaPlugin {
             }
             boolean fgService = aBundle.getBoolean("useForegroundService");
             if( fgService ) {
-
-                fgServiceMainString = aBundle.getString("fgServiceMainString", "Foreground Service");
-                fgServiceSubString = aBundle.getString("fgServiceSubString", "Preventing app from being stopped");
-
-                Intent intent = new Intent(cordova.getActivity(), ForegroundService.class);
-                cordova.getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+                startForegroundService(true);
             }
 
             boolean appRestartService = aBundle.getBoolean("appRestartService");
@@ -177,11 +176,25 @@ public class Insomnia extends CordovaPlugin {
             boolean enable = args.getJSONObject(0).getBoolean("enable");
             Settings.enableRestartService(enable);
             return true;
+        } else if( action.equals(ENABLE_FOREGROUND_SERVICE)) {
+            boolean enable = args.getJSONObject(0).getBoolean("enable");
+            startForegroundService(enable);
+            return true;
         }
 
         return false;
     }
 
+    private void startForegroundService(boolean enable) {
+        Intent intent = new Intent(cordova.getActivity(), ForegroundService.class);
+        if( enable ) {
+            fgServiceMainString = configBundle.getString("fgServiceMainString", "Foreground Service");
+            fgServiceSubString = configBundle.getString("fgServiceSubString", "Preventing app from being stopped");
+            cordova.getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        } else {
+            cordova.getActivity().unbindService(mConnection);
+        }
+    }
 
     private void clearKeepScreenOn(final CallbackContext callbackContext) {
         cordova.getActivity().runOnUiThread(new Runnable() {
