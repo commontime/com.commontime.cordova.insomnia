@@ -1,0 +1,25 @@
+{
+  "name": "com.commontime.cordova.insomnia",
+  "version": "0.0.25",
+  "description": "Commontime cordova insomnia plugin.",
+  "cordova": {
+    "id": "com.commontime.cordova.insomnia",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "commontime",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Commontime Ltd",
+  "license": "MIT"
+}

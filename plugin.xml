@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
   id="com.commontime.cordova.insomnia"
-  version="0.0.23">
+  version="0.0.25">
 
   <name>No Sleep plugin</name>
 
@@ -47,6 +47,39 @@
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
     <framework src="library-projects/android/insomnia" custom="true" />
       
+  </platform>
+
+  <platform name="ios">
+
+    <preference name="STARTONBOOT" default="false" />
+
+    <config-file target="config.xml" parent="/*">
+        <feature name="Insomnia">
+            <param name="ios-package" value="Insomnia" />
+            <param name="onload" value="true" />
+        </feature>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="UIBackgroundModes">
+        <array>
+            <string>audio</string>
+        </array>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="Insomnia">
+        <dict>
+          <key>startOnBoot</key>
+          <string>$STARTONBOOT</string>
+        </dict>
+    </config-file>
+
+    <resource-file src="appbeep.m4a" />
+
+    <header-file src="src/ios/Insomnia.h" />
+    <source-file src="src/ios/Insomnia.m" />
+    <header-file src="src/ios/APPMethodMagic.h" />
+    <source-file src="src/ios/APPMethodMagic.m" />
+
   </platform>
     
 </plugin>
