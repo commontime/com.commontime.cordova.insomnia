@@ -137,6 +137,8 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 {
     if (!enabled)
         return;
+    
+    [self configureAudioSession];
 
     [audioPlayer play];
     [self fireEvent:kAPPBackgroundEventActivate];
