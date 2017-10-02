@@ -3,6 +3,10 @@
 Cordova plugin for keeping your android awake.
 
 
+### Wake lock
+
+If you need to keep the CPU running in order to complete some work before the device goes to sleep, you can use a PowerManager system service feature called wake locks. Wake locks allow your application to control the power state of the host device.
+
 ```
 plugins.insomnia.acquireWakeLock( function() {
     console.info("done");
@@ -10,7 +14,6 @@ plugins.insomnia.acquireWakeLock( function() {
     console.error(error);
 });
 ```
-
 
 ```
 plugins.insomnia.releaseWakeLock( function() {
@@ -20,6 +23,11 @@ plugins.insomnia.releaseWakeLock( function() {
 });
 ```
 
+### Battery optimization
+
+Request to place the app on the battery optimization white-list.  An app that is whitelisted can use the network and hold partial wake locks during Doze and App Standby. However, other restrictions still apply to the whitelisted app, just as they do to other apps.
+
+https://developer.android.com/training/monitoring-device-state/doze-standby.html
 
 ```
 plugins.insomnia.stopBatteryOptimization( function() {
@@ -35,6 +43,39 @@ plugins.insomnia.isIgnoringBatteryOptimization( function(response) {
 }, function() {});
 
 ```
+
+### App Restart Service
+
+Enables/disables a service that restarts the app if it is closed by the user or by the OS.
+
+```
+plugins.insomnia.enableRestartService( function(response) {   
+    console.info("done");
+}, function(error) {
+    console.error(error);
+}, {
+    "enable": true
+});
+
+```
+
+### Foreground service
+
+Enables/disables a the icon in the status bar that helps keep the app from being stopped.
+
+https://developer.android.com/guide/components/services.html#Foreground
+
+```
+plugins.insomnia.enableForegroundService( function(response) {   
+    console.info("done");
+}, function(error) {
+    console.error(error);
+}, {
+    "enable": true
+});
+
+```
+
 
 eg:
 
