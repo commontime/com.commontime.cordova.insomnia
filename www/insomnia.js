@@ -10,41 +10,57 @@ module.exports = {
     acquireWakeLock: function (successCallback, errorCallback) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'acquireWakeLock', []);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     releaseWakeLock: function (successCallback, errorCallback) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'releaseWakeLock', []);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     stopBatteryOptimization: function (successCallback, errorCallback) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'stopBatteryOptimization', []);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     isIgnoringBatteryOptimization: function (successCallback, errorCallback) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'isIgnoringBatteryOptimization', []);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     switchOnScreenAndForeground: function (successCallback, errorCallback, options) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'switchOnScreenAndForeground', [options]);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     clearKeepScreenOn: function (successCallback, errorCallback) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'clearKeepScreenOn', []);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     enableRestartService: function (successCallback, errorCallback, options) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'enableRestartService', [options]);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     enableForegroundService: function (successCallback, errorCallback, options) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'enableForegroundService', [options]);
+        } else {
+        	errorCallback("Android Only");
         }
     },
     // ANDROID
@@ -53,11 +69,15 @@ module.exports = {
     enable: function (successCallback, errorCallback) {
         if(_isIos) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'enable', []);
+        } else {
+        	errorCallback("iOS Only");
         }
     },
     disable: function (successCallback, errorCallback) {
         if(_isIos) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'disable', []);
+        } else {
+        	errorCallback("iOS Only");
         }
     }
     // IOS    
