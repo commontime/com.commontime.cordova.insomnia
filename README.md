@@ -163,7 +163,7 @@ Allows the screen to go off again
 
 ## iOS
 
-Funtionality on iOS is very limited; it is only possible to enbale or disable the insomnia ability. Please note that the following functions are iOS only. If you try to call them from an Android device the error callback will be fired along with the message "iOS Only". The same principle applies if you are on an iOS device and try to call a function under the Android section above with the message "Android Only".
+Funtionality on iOS is very limited; it is only possible to enbale or disable the insomnia ability. Please note that the following functions are iOS only. If you try to call them from an Android device the error callback will be fired along with the message "iOS Only". The same principle applies if you are on an iOS device and try to call a function under the Android section. In this case you will get the message "Android Only" in the error callback.
 
 ### enable:
 
