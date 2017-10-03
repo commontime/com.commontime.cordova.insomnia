@@ -1,9 +1,18 @@
 # com.commontime.cordova.insomnia
 
-Cordova plugin for keeping your android awake.
+Cordova plugin for keeping your android and iOS device awake.
 
+#### Important if using across both Andorid and iOS:
 
-### Wake lock
+Due to platform limitations on iOS the plugin's behavior is limited to enabling or disabling background running when the app is dismissed by the user when pressing the home button. But compared to Android, this plugin can <b>not</b>:
+
+* Restart the app if killed off by the user or OS
+* Cannot start the app after the device has booted up after being powered down
+* Cannot bring the app to the foreground
+
+## Android
+
+#### Wake lock
 
 If you need to keep the CPU running in order to complete some work before the device goes to sleep, you can use a PowerManager system service feature called wake locks. Wake locks allow your application to control the power state of the host device.
 
@@ -23,7 +32,7 @@ plugins.insomnia.releaseWakeLock( function() {
 });
 ```
 
-### Battery optimization
+#### Battery optimization
 
 Request to place the app on the battery optimization white-list.  An app that is whitelisted can use the network and hold partial wake locks during Doze and App Standby. However, other restrictions still apply to the whitelisted app, just as they do to other apps.
 
@@ -44,7 +53,7 @@ plugins.insomnia.isIgnoringBatteryOptimization( function(response) {
 
 ```
 
-### App Restart Service
+#### App Restart Service
 
 Enables/disables a service that restarts the app if it is closed by the user or by the OS.
 
@@ -59,7 +68,7 @@ plugins.insomnia.enableRestartService( function(response) {
 
 ```
 
-### Foreground service
+#### Foreground service
 
 Enables/disables a the icon in the status bar that helps keep the app from being stopped.
 
@@ -119,7 +128,7 @@ cordova plugins add ../com.commontime.cordova.insomnia
 </plugin>
 ```
 
-## Turning on the screen and unlocking for app
+### Turning on the screen and unlocking for app
 
 ```
 plugins.insomnia.switchOnScreenAndForeground(function() {console.log("done");}, function() {console.error("error");}, {
@@ -130,19 +139,19 @@ plugins.insomnia.switchOnScreenAndForeground(function() {console.log("done");}, 
 });
 ```
 
-### showWhenLocked:
+#### showWhenLocked:
 
 Flag to let windows be shown when the screen is locked. This will let application windows take precedence over key guard or any other lock screens. Can be used with ```keepScreenOn``` to turn screen on and display windows directly before showing the key guard window. Can be used with dismissKeyGuard to automatically fully dismisss non-secure keyguards.
 
-### turnScreenOn: 
+#### turnScreenOn: 
 
 Poke the power manager's user activity (as if the user had woken up the device) to turn the screen on.
 
-### dismissKeyGuard:
+#### dismissKeyGuard:
 
 Cause the keyguard to be dismissed, only if it is not a secure lock keyguard. Because such a keyguard is not needed for security, it will never re-appear if the user navigates to another window (in contrast to ```showWhenLocked```, which will only temporarily hide both secure and non-secure keyguards but ensure they reappear when the user moves to another UI that doesn't hide them). If the keyguard is currently active and is secure (requires an unlock credential) than the user will still need to confirm it before seeing this window, unless ```showWhenLocked``` has also been set.
 
-### keepScreenOn:
+#### keepScreenOn:
 
 As long as this window is visible to the user, keep the device's screen turned on and bright.
 
@@ -152,6 +161,32 @@ plugins.insomnia.clearKeepScreenOn(function() {console.log("done");}, function()
 
 Allows the screen to go off again
 
+## iOS
 
+Funtionality on iOS is very limited; it is only possible to enbale or disable the insomnia ability. Please note that the following functions are iOS only. If you try to call them from an Android device the error callback will be fired along with the message "iOS Only". The same principle applies if you are on an iOS device and try to call a function under the Android section above with the message "Android Only".
 
+### enable:
 
+```
+plugins.insomnia.enable( function(response) {   
+    console.info("done");
+}, function(error) {
+    console.error(error);
+}, {
+    "enable": true
+});
+
+```
+
+### disable
+
+```
+plugins.insomnia.disable( function(response) {   
+    console.info("done");
+}, function(error) {
+    console.error(error);
+}, {
+    "enable": false
+});
+
+```
