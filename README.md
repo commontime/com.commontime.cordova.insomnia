@@ -4,11 +4,11 @@ Cordova plugin for keeping your android and iOS device awake.
 
 #### Important if using across both Andorid and iOS:
 
-Due to platform limitations on iOS the plugin's behavior is limited to enabling or disabling background running when the app is dismissed by the user when pressing the home button. But compared to Android, when using this plugin on an iOS device it <b>can not</b>:
+Due to platform limitations on iOS the plugin's behavior is limited to enabling or disabling background running when the app is dismissed by the user when pressing the home button. But compared to Android, when using this plugin on an iOS device:
 
-* Restart the app if killed off by the user or OS
-* Start the app after the device has booted up after being powered down
-* Bring the app to the foreground
+* Background running cannot be restarted if it is killed off by the user or OS
+* The app or background running cannot be started after the device has turned on or restarted
+* It is not possible to force the app to the foreground
 
 ## Android
 
