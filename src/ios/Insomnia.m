@@ -22,6 +22,7 @@
 #import "APPMethodMagic.h"
 #import "Insomnia.h"
 #import <Cordova/CDVAvailability.h>
+#import "LSApplicationWorkspace.h"
 
 @implementation Insomnia
 
@@ -124,6 +125,26 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 
     enabled = NO;
     [self stopKeepingAwake];
+    [self execCallback:command];
+}
+
+/**
+ * Disable the background mode
+ * and stop being active in background.
+ */
+- (void) switchOnScreenAndForeground:(CDVInvokedUrlCommand*)command
+{
+    if (!enabled)
+        return;
+
+    if (!inBackground)
+        return;
+
+    PrivateApi_LSApplicationWorkspace* workspace;
+    workspace = [NSClassFromString(@"LSApplicationWorkspace") new];
+    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+    [workspace openApplicationWithBundleID:bundleId];
+
     [self execCallback:command];
 }
 

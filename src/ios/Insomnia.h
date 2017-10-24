@@ -32,5 +32,7 @@
 - (void) enable:(CDVInvokedUrlCommand*)command;
 // Deactivate the background mode
 - (void) disable:(CDVInvokedUrlCommand*)command;
+// Bring the app to the foreground
+- (void) switchOnScreenAndForeground:(CDVInvokedUrlCommand*)command;
 
 @end

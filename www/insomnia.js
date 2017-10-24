@@ -34,14 +34,7 @@ module.exports = {
         } else {
         	errorCallback("Android Only");
         }
-    },
-    switchOnScreenAndForeground: function (successCallback, errorCallback, options) {
-        if(_isAndroid) {
-            cordova.exec(successCallback, errorCallback, 'Insomnia', 'switchOnScreenAndForeground', [options]);
-        } else {
-        	errorCallback("Android Only");
-        }
-    },
+    },    
     clearKeepScreenOn: function (successCallback, errorCallback) {
         if(_isAndroid) {
             cordova.exec(successCallback, errorCallback, 'Insomnia', 'clearKeepScreenOn', []);
@@ -79,8 +72,14 @@ module.exports = {
         } else {
         	errorCallback("iOS Only");
         }
+    },
+    // IOS
+
+    // BOTH
+    switchOnScreenAndForeground: function (successCallback, errorCallback, options) {
+        cordova.exec(successCallback, errorCallback, 'Insomnia', 'switchOnScreenAndForeground', [options]);        
     }
-    // IOS    
+    // BOTH    
 
 }
 

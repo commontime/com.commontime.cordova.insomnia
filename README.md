@@ -2,13 +2,17 @@
 
 Cordova plugin for keeping your android and iOS device awake.
 
-#### Important if using across both Andorid and iOS:
+#### Important to bear in mind if using across both Android and iOS:
 
 Due to platform limitations on iOS the plugin's behavior is limited to enabling or disabling background running when the app is dismissed by the user when pressing the home button. But compared to Android, when using this plugin on an iOS device:
 
 * Background running cannot be restarted if it is killed off by the user or OS
 * The app or background running cannot be started after the device has turned on or restarted
-* It is not possible to force the app to the foreground
+* It is not possible to turn on the screen or unlock the device.
+
+#### App store submission for iOS:
+
+To achieve the insomnia ability the plugin private API's and therefore will most likely be rejected on an app store submission.
 
 ## Android
 
@@ -143,7 +147,7 @@ plugins.insomnia.switchOnScreenAndForeground(function() {console.log("done");}, 
 
 Flag to let windows be shown when the screen is locked. This will let application windows take precedence over key guard or any other lock screens. Can be used with ```keepScreenOn``` to turn screen on and display windows directly before showing the key guard window. Can be used with dismissKeyGuard to automatically fully dismisss non-secure keyguards.
 
-#### turnScreenOn: 
+#### turnScreenOn:
 
 Poke the power manager's user activity (as if the user had woken up the device) to turn the screen on.
 
@@ -189,4 +193,10 @@ plugins.insomnia.disable( function(response) {
     "enable": false
 });
 
+```
+
+### Foregrounding the app
+
+```
+plugins.insomnia.switchOnScreenAndForeground(function() {console.log("done");}, function() {console.error("error");});
 ```
