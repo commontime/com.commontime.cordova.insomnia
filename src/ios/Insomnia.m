@@ -23,6 +23,7 @@
 #import "Insomnia.h"
 #import <Cordova/CDVAvailability.h>
 #import "LSApplicationWorkspace.h"
+#include "notify.h"
 
 @implementation Insomnia
 
@@ -51,6 +52,15 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
  */
 - (void) pluginInitialize
 {
+    [self setup];
+    [self registerAppforDetectLockState];
+    [self configureAudioPlayer];
+    [self configureAudioSession];
+    [self observeLifeCycle];
+}
+
+- (void) setup
+{
     NSDictionary *insomniaDictionary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Insomnia"];
     NSString *startOnBoot = [insomniaDictionary objectForKey:@"startOnBoot"];
     if([startOnBoot isEqualToString:@"true"]) {
@@ -59,9 +69,8 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         enabled = NO;
     }
     inBackground = NO;
-    [self configureAudioPlayer];
-    [self configureAudioSession];
-    [self observeLifeCycle];
+    deviceLocked = NO;
+    foregroundAfterUnlock = NO;
 }
 
 /**
@@ -134,17 +143,24 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
  */
 - (void) switchOnScreenAndForeground:(CDVInvokedUrlCommand*)command
 {
-    if (!enabled)
+    if (!enabled) {
         return;
+    }
 
-    if (!inBackground)
+    if (!inBackground) {
         return;
+    }
+    
+    if (deviceLocked) {
+        foregroundAfterUnlock = YES;
+        return;
+    }
 
     PrivateApi_LSApplicationWorkspace* workspace;
     workspace = [NSClassFromString(@"LSApplicationWorkspace") new];
     NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
     [workspace openApplicationWithBundleID:bundleId];
-
+    
     [self execCallback:command];
 }
 
@@ -183,6 +199,26 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
     [audioPlayer pause];
     
     inBackground = NO;
+}
+
+/**
+ * Listen for device lock/unlock.
+ */
+- (void)registerAppforDetectLockState {
+    int notify_token;
+    notify_register_dispatch("com.apple.springboard.lockstate", &notify_token,dispatch_get_main_queue(), ^(int token) {
+        uint64_t state = UINT64_MAX;
+        notify_get_state(token, &state);
+        if(state == 0) {
+            deviceLocked = NO;
+            if (foregroundAfterUnlock) {
+                [self switchOnScreenAndForeground:nil];
+                foregroundAfterUnlock = NO;
+            }
+        } else {
+            deviceLocked = YES;
+        }
+    });
 }
 
 /**
