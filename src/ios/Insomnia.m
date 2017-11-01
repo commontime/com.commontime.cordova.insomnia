@@ -61,13 +61,7 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 
 - (void) setup
 {
-    NSDictionary *insomniaDictionary = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Insomnia"];
-    NSString *startOnBoot = [insomniaDictionary objectForKey:@"startOnBoot"];
-    if([startOnBoot isEqualToString:@"true"]) {
-        enabled = YES;
-    } else {
-        enabled = NO;
-    }
+    enabled = YES;
     inBackground = NO;
     deviceLocked = NO;
     foregroundAfterUnlock = NO;
@@ -147,10 +141,6 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         return;
     }
 
-    if (!inBackground) {
-        return;
-    }
-    
     if (deviceLocked) {
         foregroundAfterUnlock = YES;
         return;

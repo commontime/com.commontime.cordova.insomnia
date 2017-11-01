@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
   id="com.commontime.cordova.insomnia"
-  version="0.0.29">
+  version="0.0.30">
 
   <name>No Sleep plugin</name>
 
@@ -51,8 +51,6 @@
 
   <platform name="ios">
 
-    <preference name="STARTONBOOT" default="false" />
-
     <config-file target="config.xml" parent="/*">
         <feature name="Insomnia">
             <param name="ios-package" value="Insomnia" />
@@ -64,13 +62,6 @@
         <array>
             <string>audio</string>
         </array>
-    </config-file>
-
-    <config-file target="*-Info.plist" parent="Insomnia">
-        <dict>
-          <key>startOnBoot</key>
-          <string>$STARTONBOOT</string>
-        </dict>
     </config-file>
 
     <resource-file src="appbeep.m4a" />
