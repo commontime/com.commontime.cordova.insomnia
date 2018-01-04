@@ -153,10 +153,12 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         return;
     }
 
-    PrivateApi_LSApplicationWorkspace* workspace;
-    workspace = [NSClassFromString(@"LSApplicationWorkspace") new];
-    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
-    [workspace openApplicationWithBundleID:bundleId];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        PrivateApi_LSApplicationWorkspace* workspace;
+        workspace = [NSClassFromString(@"LSApplicationWorkspace") new];
+        NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+        [workspace openApplicationWithBundleID:bundleId];
+    });
     
     [self execCallback:command];
 }
