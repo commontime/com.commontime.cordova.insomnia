@@ -373,9 +373,6 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         [obj setValue:[NSNumber numberWithBool:YES]
                forKey:[Insomnia wkProperty]];
 
-        [obj setValue:[NSNumber numberWithBool:NO]
-               forKey:@"_requiresUserActionForMediaPlayback"];
-
         return obj;
     }
     SwizzleSelectorWithBlock_End;
