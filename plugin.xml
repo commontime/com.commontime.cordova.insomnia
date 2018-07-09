@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
   id="com.commontime.cordova.insomnia"
-  version="0.0.33">
+  version="0.0.34">
 
   <name>No Sleep plugin</name>
 
@@ -17,7 +17,7 @@
         <param name="onload" value="true"/>
       </feature>
     </config-file>
-      
+
     <preference name="WAKELOCK" default="false" />
     <preference name="BATTOP" default="false" />
     <preference name="FGSERVICEENABLED" default="false" />
@@ -56,6 +56,12 @@
             <param name="ios-package" value="Insomnia" />
             <param name="onload" value="true" />
         </feature>
+    </config-file>
+
+    <preference name="AUTOSTART" default="false" />
+
+    <config-file target="*-Info.plist" parent="InsomniaAutoStart">
+    	<string>$AUTOSTART</string>
     </config-file>
 
     <config-file target="*-Info.plist" parent="UIBackgroundModes">

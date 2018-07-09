@@ -61,7 +61,11 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 
 - (void) setup
 {
-    enabled = YES;
+    enabled = NO;
+    BOOL autoStart = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"InsomniaAutoStart"] boolValue];
+    if (autoStart) {
+        enabled = YES;
+    }
     inBackground = NO;
     deviceLocked = NO;
     foregroundAfterUnlock = NO;
