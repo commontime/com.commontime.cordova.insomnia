@@ -115,7 +115,10 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 - (void) enable:(CDVInvokedUrlCommand*)command
 {
     if (enabled)
+    {
+        [self execCallback:command];
         return;
+    }
 
     enabled = YES;
     
@@ -135,7 +138,10 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 - (void) disable:(CDVInvokedUrlCommand*)command
 {
     if (!enabled)
+    {
+        [self execCallback:command];
         return;
+    }
 
     enabled = NO;
     [self stopKeepingAwake];
