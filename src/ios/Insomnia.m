@@ -154,10 +154,6 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
  */
 - (void) switchOnScreenAndForeground:(CDVInvokedUrlCommand*)command
 {
-    if (!enabled) {
-        return;
-    }
-
     if (deviceLocked) {
         foregroundAfterUnlock = YES;
         return;
