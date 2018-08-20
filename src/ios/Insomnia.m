@@ -68,7 +68,9 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
     }
     inBackground = NO;
     deviceLocked = NO;
+    deviceLockedByUser = NO;
     foregroundAfterUnlock = NO;
+    bringToFrontRequested = NO;
 }
 
 /**
@@ -154,6 +156,8 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
  */
 - (void) switchOnScreenAndForeground:(CDVInvokedUrlCommand*)command
 {
+    bringToFrontRequested = YES;
+    
     if (deviceLocked) {
         foregroundAfterUnlock = YES;
         return;
@@ -165,6 +169,8 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
         [workspace openApplicationWithBundleID:bundleId];
     });
+    
+    bringToFrontRequested = NO;
     
     [self execCallback:command];
 }
@@ -216,12 +222,14 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         notify_get_state(token, &state);
         if(state == 0) {
             deviceLocked = NO;
-            if (foregroundAfterUnlock) {
+            if (foregroundAfterUnlock || (deviceLockedByUser == NO && bringToFrontRequested)) {
                 [self switchOnScreenAndForeground:nil];
                 foregroundAfterUnlock = NO;
             }
+            deviceLockedByUser = NO;
         } else {
             deviceLocked = YES;
+            deviceLockedByUser = YES;
         }
     });
 }
