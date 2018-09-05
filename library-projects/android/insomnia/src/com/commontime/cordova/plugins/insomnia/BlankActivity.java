@@ -16,11 +16,11 @@ public class BlankActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        boolean turnScreenOn = getIntent().getExtras().getBoolean("turnScreenOn");
-        if(turnScreenOn) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        }
+        // boolean turnScreenOn = getIntent().getExtras().getBoolean("turnScreenOn");
+        // if(turnScreenOn) {
+        //     Window window = getWindow();
+        //     window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        // }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -28,10 +28,12 @@ public class BlankActivity extends Activity {
                 BlankActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
-                        i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        i.setPackage(getPackageName());
-                        startActivity(i);
+                        
+                        finish();
+                        // Intent i = new Intent("com.commontime.cordova.insomnia.BOOT");
+                        // i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        // i.setPackage(getPackageName());
+                        // startActivity(i);
                     }
                 });
             }
