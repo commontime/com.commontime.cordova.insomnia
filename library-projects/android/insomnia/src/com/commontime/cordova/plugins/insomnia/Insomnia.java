@@ -120,7 +120,7 @@ public class Insomnia extends CordovaPlugin {
         Window window = cordova.getActivity().getWindow();
         if( showWhenLocked ) {            
             try {
-                getActivity().setShowWhenLocked(true);
+                cordova.getActivity().setShowWhenLocked(true);
             } catch(NoSuchMethodException e) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
             }
@@ -128,7 +128,7 @@ public class Insomnia extends CordovaPlugin {
         if( turnScreenOn ) {
             
             try {
-                getActivity().setTurnScreenOn(true);
+                cordova.getActivity().setTurnScreenOn(true);
             } catch(NoSuchMethodException e) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
             }
