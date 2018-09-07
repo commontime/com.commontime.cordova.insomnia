@@ -67,10 +67,7 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         enabled = YES;
     }
     inBackground = NO;
-    deviceLocked = NO;
-    deviceLockedByUser = NO;
     foregroundAfterUnlock = NO;
-    bringToFrontRequested = NO;
 }
 
 /**
@@ -156,21 +153,17 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
  */
 - (void) switchOnScreenAndForeground:(CDVInvokedUrlCommand*)command
 {
-    bringToFrontRequested = YES;
-    
-    if (deviceLocked) {
-        foregroundAfterUnlock = YES;
-        return;
-    }
-
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         PrivateApi_LSApplicationWorkspace* workspace;
         workspace = [NSClassFromString(@"LSApplicationWorkspace") new];
         NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
-        [workspace openApplicationWithBundleID:bundleId];
+        BOOL isOpen = [workspace openApplicationWithBundleID:bundleId];
+        if (!isOpen) {
+            // Reason for failing to open up the app is almost certainly because the phone is locked.
+            // Therefore set the flag to bring to the front after unlock to true.
+            foregroundAfterUnlock = YES;
+        }
     });
-    
-    bringToFrontRequested = NO;
     
     [self execCallback:command];
 }
@@ -221,15 +214,10 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         uint64_t state = UINT64_MAX;
         notify_get_state(token, &state);
         if(state == 0) {
-            deviceLocked = NO;
-            if (foregroundAfterUnlock || (deviceLockedByUser == NO && bringToFrontRequested)) {
+            if (foregroundAfterUnlock) {
                 [self switchOnScreenAndForeground:nil];
                 foregroundAfterUnlock = NO;
             }
-            deviceLockedByUser = NO;
-        } else {
-            deviceLocked = YES;
-            deviceLockedByUser = YES;
         }
     });
 }

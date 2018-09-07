@@ -26,10 +26,7 @@
     AVAudioPlayer* audioPlayer;
     BOOL enabled;
     BOOL inBackground;
-    BOOL deviceLocked;
-    BOOL deviceLockedByUser;
     BOOL foregroundAfterUnlock;
-    BOOL bringToFrontRequested;
 }
 
 // Activate the background mode
