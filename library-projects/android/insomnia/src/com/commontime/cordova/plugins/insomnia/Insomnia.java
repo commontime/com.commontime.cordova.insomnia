@@ -180,6 +180,10 @@ public class Insomnia extends CordovaPlugin {
             return true;
         } else if( action.equals(CLEAR_KEEP_SCREEN_ON)) {
             clearKeepScreenOn(callbackContext);
+            showWhenLocked = false;
+            turnScreenOn = false;
+            dismissKeyGuard = false;
+            keepScreenOn = false;
             return true;
         } else if( action.equals(ENABLE_RESTART_SERVICE)) {
             boolean enable = args.getJSONObject(0).getBoolean("enable");
