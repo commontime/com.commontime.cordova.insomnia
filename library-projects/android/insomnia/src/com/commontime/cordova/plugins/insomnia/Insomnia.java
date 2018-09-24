@@ -174,7 +174,7 @@ public class Insomnia extends CordovaPlugin {
             JSONObject options = args.getJSONObject(0);
             showWhenLocked = options.optBoolean("showWhenLocked", true);
             turnScreenOn = options.optBoolean("turnScreenOn", true);
-            dismissKeyGuard = options.optBoolean("dismissKeyGuard", true);
+            dismissKeyGuard = options.optBoolean("dismissKeyGuard", false);
             keepScreenOn = options.optBoolean("keepScreenOn", true);
             switchOnScreenAndForeground(callbackContext);
             return true;
