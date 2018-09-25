@@ -46,6 +46,7 @@ public class ForegroundService extends Service {
                     .setSmallIcon(resId)
                     .setLargeIcon(bigIcon)
                     .setContentIntent(null)
+                    .setChannel(Insomnia.CHANNEL_ID)
                     .setOngoing(true).build();
             startForeground(NOTIFIC, notification);
         }
