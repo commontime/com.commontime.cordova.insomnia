@@ -1,6 +1,8 @@
 package com.commontime.cordova.plugins.insomnia;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +45,8 @@ public class Insomnia extends CordovaPlugin {
     private static final String ENABLE_RESTART_SERVICE = "enableRestartService";
     private static final String ENABLE_FOREGROUND_SERVICE = "enableForegroundService";
 
+    private static final String CHANNEL_ID = "Insomnia_Channel_ID";
+    
     String wakeLockTag = "Commontime::Insomnia";
     private PowerManager.WakeLock lock;
     private CallbackContext batteryCallback;
@@ -111,6 +115,20 @@ public class Insomnia extends CordovaPlugin {
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void createNotificationChannel(String channelName, String description) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {            
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 
@@ -206,6 +224,7 @@ public class Insomnia extends CordovaPlugin {
             System.out.println("Starting foreground service");
             fgServiceMainString = configBundle.getString("fgServiceMainString", "Foreground Service");
             fgServiceSubString = configBundle.getString("fgServiceSubString", "Preventing app from being stopped");
+            createNotificationChannel(fgServiceMainString, fgServiceSubString);
             cordova.getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         } else {
             System.out.println("Stopping foreground service");
