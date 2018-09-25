@@ -49,6 +49,8 @@ public class Insomnia extends CordovaPlugin {
     static final String CHANNEL_ID = "Insomnia_Channel_ID";
     
     String wakeLockTag = "Commontime::Insomnia";
+    String wifiLockTag = "Commontime::WifiInsomnia";
+    
     private PowerManager.WakeLock lock;
     private WifiManager.WifiLock wifiLock;
     private CallbackContext batteryCallback;
@@ -321,7 +323,7 @@ public class Insomnia extends CordovaPlugin {
         WifiManager wifiManager = (WifiManager) cordova.getActivity().getSystemService(Context.WIFI_SERVICE);
 
         if( wifiLock == null )
-            wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+            wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, wifiLockTag);
 
         wifiLock.setReferenceCounted(false);
 
@@ -331,9 +333,10 @@ public class Insomnia extends CordovaPlugin {
 
     private void releaseWakeLock() {
         lock.release();
-        
-        if( wifiLock.isHeld() )
-            wifiLock.release();
+               		
+        if( wifiLock != null && wifiLock.isHeld() ){
+            wifiLock.release();          
+        }
     }
 
     private void stopBatteryOptimization(CallbackContext callbackContext) {
