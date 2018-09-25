@@ -188,10 +188,12 @@ public class Insomnia extends CordovaPlugin {
         } else if( action.equals(ENABLE_RESTART_SERVICE)) {
             boolean enable = args.getJSONObject(0).getBoolean("enable");
             Settings.enableRestartService(enable);
+            callbackContext.success();
             return true;
         } else if( action.equals(ENABLE_FOREGROUND_SERVICE)) {
             boolean enable = args.getJSONObject(0).getBoolean("enable");
             startForegroundService(enable);
+            callbackContext.success();
             return true;
         }
 
