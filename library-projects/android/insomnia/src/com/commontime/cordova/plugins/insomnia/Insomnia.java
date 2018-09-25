@@ -45,7 +45,7 @@ public class Insomnia extends CordovaPlugin {
     private static final String ENABLE_RESTART_SERVICE = "enableRestartService";
     private static final String ENABLE_FOREGROUND_SERVICE = "enableForegroundService";
 
-    private static final String CHANNEL_ID = "Insomnia_Channel_ID";
+    static final String CHANNEL_ID = "Insomnia_Channel_ID";
     
     String wakeLockTag = "Commontime::Insomnia";
     private PowerManager.WakeLock lock;
