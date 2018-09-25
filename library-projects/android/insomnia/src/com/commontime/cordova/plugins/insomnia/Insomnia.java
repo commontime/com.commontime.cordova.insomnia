@@ -43,7 +43,7 @@ public class Insomnia extends CordovaPlugin {
     private static final String ENABLE_RESTART_SERVICE = "enableRestartService";
     private static final String ENABLE_FOREGROUND_SERVICE = "enableForegroundService";
 
-    String wakeLockTag = UUID.randomUUID().toString();
+    String wakeLockTag = "Commontime::Insomnia";
     private PowerManager.WakeLock lock;
     private CallbackContext batteryCallback;
     private ForegroundService mForegroundService;
@@ -288,8 +288,9 @@ public class Insomnia extends CordovaPlugin {
     }
 
     private void requestWakeLock() {
+        System.out.println("Requesting Wake Lock
         PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
-        lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, wakeLockTag);
+        lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, wakeLockTag);                           
         lock.acquire();
     }
 
