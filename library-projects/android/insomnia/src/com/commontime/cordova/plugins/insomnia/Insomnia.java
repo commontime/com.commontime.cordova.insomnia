@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -49,6 +50,7 @@ public class Insomnia extends CordovaPlugin {
     
     String wakeLockTag = "Commontime::Insomnia";
     private PowerManager.WakeLock lock;
+    private WifiManager.WifiLock wifiLock;
     private CallbackContext batteryCallback;
     private ForegroundService mForegroundService;
     private boolean mBound;
@@ -315,10 +317,23 @@ public class Insomnia extends CordovaPlugin {
         PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
         lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, wakeLockTag);                           
         lock.acquire();
+        
+        WifiManager wifiManager = (WifiManager) cordova.getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        if( wifiLock == null )
+            wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+
+        wifiLock.setReferenceCounted(false);
+
+        if( !wifiLock.isHeld() )
+            wifiLock.acquire();
     }
 
     private void releaseWakeLock() {
         lock.release();
+        
+        if( wifiLock.isHeld() )
+            wifiLock.release();
     }
 
     private void stopBatteryOptimization(CallbackContext callbackContext) {
