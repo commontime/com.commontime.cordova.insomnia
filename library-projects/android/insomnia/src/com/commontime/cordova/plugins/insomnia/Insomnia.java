@@ -203,12 +203,12 @@ public class Insomnia extends CordovaPlugin {
     private void startForegroundService(boolean enable) {
         Intent intent = new Intent(cordova.getActivity(), ForegroundService.class);
         if( enable ) {
-            System.out.prinlnt("Starting foreground service");
+            System.out.println("Starting foreground service");
             fgServiceMainString = configBundle.getString("fgServiceMainString", "Foreground Service");
             fgServiceSubString = configBundle.getString("fgServiceSubString", "Preventing app from being stopped");
             cordova.getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         } else {
-            System.out.prinlnt("Stopping foreground service");
+            System.out.println("Stopping foreground service");
             cordova.getActivity().unbindService(mConnection);
         }
     }
