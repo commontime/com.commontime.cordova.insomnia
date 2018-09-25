@@ -288,7 +288,7 @@ public class Insomnia extends CordovaPlugin {
     }
 
     private void requestWakeLock() {
-        System.out.println("Requesting Wake Lock
+        System.out.println("Requesting Wake Lock");
         PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
         lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, wakeLockTag);                           
         lock.acquire();
