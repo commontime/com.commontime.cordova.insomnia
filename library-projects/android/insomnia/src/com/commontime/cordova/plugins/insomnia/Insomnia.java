@@ -241,7 +241,7 @@ public class Insomnia extends CordovaPlugin {
             @Override
             public void run() {
                 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.N) {
                     Window window = cordova.getActivity().getWindow();
                     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     window.clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
