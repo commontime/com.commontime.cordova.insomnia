@@ -48,7 +48,7 @@ public class ForegroundService extends Service {
             
             try {
                 b.setChannelId(Insomnia.CHANNEL_ID);
-            } catch(Exception e) {                    
+            } catch(NoSuchMethodError e) {                    
             }
             
             Notification notification = b.build();
