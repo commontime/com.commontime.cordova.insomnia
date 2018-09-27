@@ -37,17 +37,22 @@ public class ForegroundService extends Service {
             int bigId = getResources().getIdentifier("screen", "drawable", getPackageName());
             Bitmap bigIcon = BitmapFactory.decodeResource(getResources(), bigId);
 
-            Notification notification = null;
-
-            notification = new Notification.Builder(this)
+            Notification.Builder b = new Notification.Builder(this)
                     .setContentTitle(main)
                     .setTicker(main)
                     .setContentText(sub)
                     .setSmallIcon(resId)
                     .setLargeIcon(bigIcon)
-                    .setContentIntent(null)
-                    .setChannelId(Insomnia.CHANNEL_ID)
-                    .setOngoing(true).build();
+                    .setContentIntent(null)                    
+                    .setOngoing(true);
+            
+            try {
+                b.setChannelId(Insomnia.CHANNEL_ID);
+            } catch(Exception e) {                    
+            }
+            
+            Notification notification = b.build();
+            
             startForeground(NOTIFIC, notification);
         }
     }
