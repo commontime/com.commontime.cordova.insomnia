@@ -194,7 +194,7 @@ public class Insomnia extends CordovaPlugin {
         cordova.getActivity().unbindService(connection);
     }
 
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if( action.equals(ACQUIRE_WAKE_LOCK)) {
             requestWakeLock();
             callbackContext.success();
