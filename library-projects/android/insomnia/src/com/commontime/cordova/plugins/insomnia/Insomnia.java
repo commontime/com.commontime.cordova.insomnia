@@ -243,6 +243,7 @@ public class Insomnia extends CordovaPlugin {
                     @Override
                     public void run() {
                         ((WebView)webView.getView()).resumeTimers();
+                        ((WebView)webView.getView()).onResume();
                         new Handler(myLooper).post(new Runnable() {
                             @Override
                             public void run() {
