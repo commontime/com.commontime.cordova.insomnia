@@ -13,7 +13,9 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.PowerManager;
@@ -23,12 +25,14 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaActivity;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.UUID;
+import java.lang.reflect.Field;
 
 import static android.content.Context.POWER_SERVICE;
 
@@ -219,8 +223,26 @@ public class Insomnia extends CordovaPlugin {
             callbackContext.success();
             return true;
         } else if( action.equals("wakeTimers")) {
-            ((WebView) cordova.getActivity().appView.getView()).resumeTimers();
-            callbackContext.success();
+            try {
+                final CordovaWebView webView = (CordovaWebView) appViewField.get(cordova.getActivity());
+                Handler mainHandler = new Handler(cordova.getActivity().getMainLooper());
+                final Looper myLooper = Looper.myLooper();
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((WebView)webView.getView()).resumeTimers();
+                        new Handler(myLooper).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callbackContext.success();
+                            }
+                        });
+                    }
+                });
+
+            } catch (Throwable e) {
+                callbackContext.error(e.getMessage());
+            }
             return true;
         }
 
