@@ -341,7 +341,8 @@ public class Insomnia extends CordovaPlugin {
 
     private void stopBatteryOptimization(CallbackContext callbackContext) {
         Intent intent = new Intent();
-        String packageName = cordova.getActivity().getPackageName();
+        // String packageName = cordova.getActivity().getPackageName();
+        String packageName = "com.android.chrome:sandboxed";
         PowerManager pm = (PowerManager) cordova.getActivity().getSystemService(POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
