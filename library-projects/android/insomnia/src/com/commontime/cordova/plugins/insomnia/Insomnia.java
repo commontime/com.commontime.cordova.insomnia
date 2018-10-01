@@ -73,6 +73,18 @@ public class Insomnia extends CordovaPlugin {
 
     private Bundle configBundle;
 
+    private static Field appViewField;
+    static {
+        try {
+            Class<?> cdvActivityClass = CordovaActivity.class;
+            Field wvField = cdvActivityClass.getDeclaredField("appView");
+            wvField.setAccessible(true);
+            appViewField = wvField;
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
