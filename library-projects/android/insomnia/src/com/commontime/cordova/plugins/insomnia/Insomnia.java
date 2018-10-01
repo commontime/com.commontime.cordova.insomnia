@@ -217,6 +217,10 @@ public class Insomnia extends CordovaPlugin {
             startForegroundService(enable);
             callbackContext.success();
             return true;
+        } else if( action.equals("wakeTimers")) {
+            ((WebView) cordova.getActivity().appView.getView()).resumeTimers();
+            callbackContext.success();
+            return true;
         }
 
         return false;
