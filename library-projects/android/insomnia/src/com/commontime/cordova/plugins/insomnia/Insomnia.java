@@ -20,6 +20,7 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
