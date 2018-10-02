@@ -27,6 +27,7 @@ import android.webkit.WebView;
 import android.content.BroadcastReceiver;
 import android.util.Log;
 import android.widget.Toast;
+import android.content.IntentFilter;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaActivity;
@@ -113,7 +114,7 @@ public class Insomnia extends CordovaPlugin {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle extras = intent.getExtras();StringBuilder sb = new StringBuilder();
+            Bundle extras = intent.getExtras();
             StringBuilder sb = new StringBuilder();
             sb.append("Action: " + intent.getAction() + "\n");
             sb.append("URI: " + intent.toUri(Intent.URI_INTENT_SCHEME).toString() + "\n");
