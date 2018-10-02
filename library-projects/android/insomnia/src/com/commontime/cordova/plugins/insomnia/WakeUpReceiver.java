@@ -1,3 +1,5 @@
+package com.commontime.cordova.plugins.insomnia;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
