@@ -110,21 +110,21 @@ public class Insomnia extends CordovaPlugin {
     public Insomnia() {
     }
     
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+//     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle extras = intent.getExtras();
-            StringBuilder sb = new StringBuilder();
-            sb.append("Action: " + intent.getAction() + "\n");
-            sb.append("URI: " + intent.toUri(Intent.URI_INTENT_SCHEME).toString() + "\n");
-            String log = sb.toString();
-            Log.d(TAG, log);
-            Toast.makeText(context, log, Toast.LENGTH_LONG).show();
+//         @Override
+//         public void onReceive(Context context, Intent intent) {
+//             Bundle extras = intent.getExtras();
+//             StringBuilder sb = new StringBuilder();
+//             sb.append("Action: " + intent.getAction() + "\n");
+//             sb.append("URI: " + intent.toUri(Intent.URI_INTENT_SCHEME).toString() + "\n");
+//             String log = sb.toString();
+//             Log.d(TAG, log);
+//             Toast.makeText(context, log, Toast.LENGTH_LONG).show();
 
-            Insomnia.this.switchOnScreenAndForeground(null);
-        }
-    };
+//             Insomnia.this.switchOnScreenAndForeground(null);
+//         }
+//     };
     
     @Override
     protected void pluginInitialize() {
@@ -133,7 +133,21 @@ public class Insomnia extends CordovaPlugin {
         
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.commontime.cordova.plugins.insomnia.action_WAKE_UP");
-        cordova.getActivity().registerReceiver(this.broadcastReceiver, intentFilter);
+        cordova.getActivity().registerReceiver(new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+                StringBuilder sb = new StringBuilder();
+                sb.append("Action: " + intent.getAction() + "\n");
+                sb.append("URI: " + intent.toUri(Intent.URI_INTENT_SCHEME).toString() + "\n");
+                String log = sb.toString();
+                Log.d(TAG, log);
+                Toast.makeText(context, log, Toast.LENGTH_LONG).show();
+
+                Insomnia.this.switchOnScreenAndForeground(null);
+            }
+        }, intentFilter);
 
         ApplicationInfo ai = null;
         try {
