@@ -350,6 +350,8 @@ public class Insomnia extends CordovaPlugin {
 
     private void switchOnScreenAndForeground(final CallbackContext callbackContext) {
 
+        Log.d(TAG, "switchOnScreenAndForeground");
+        
         boolean screenOn = false;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
@@ -364,6 +366,8 @@ public class Insomnia extends CordovaPlugin {
             }
         }
 
+        Log.d(TAG, "screenOn: " + screenOn);
+        Log.d(TAG, "foreground: " + foreground);
         if (!(screenOn && foreground)) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
