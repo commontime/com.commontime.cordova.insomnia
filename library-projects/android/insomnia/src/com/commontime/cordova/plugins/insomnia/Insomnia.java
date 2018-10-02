@@ -122,6 +122,7 @@ public class Insomnia extends CordovaPlugin {
             Log.d(TAG, log);
             Toast.makeText(context, log, Toast.LENGTH_LONG).show();
 
+            Insomnia.this.switchOnScreenAndForeground(null);
         }
     };
     
@@ -360,7 +361,9 @@ public class Insomnia extends CordovaPlugin {
                 }
             });
         }
-        callbackContext.success();
+        if( callbackContext != null ) {
+            callbackContext.success();
+        }
     }
 
     private void checkBatteryOptimization(CallbackContext callbackContext) {
