@@ -104,11 +104,24 @@ public class Insomnia extends CordovaPlugin {
 
     public Insomnia() {
     }
+    
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extras = intent.getExtras();
+            //do whatever need to be done
+        }
+    };
+    
     @Override
     protected void pluginInitialize() {
 
         Settings.getInstance().setup(cordova.getActivity());
+        
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.commontime.cordova.plugins.insomnia.action_WAKE_UP");
+        registerReceiver(this.broadcastReceiver, intentFilter);
 
         ApplicationInfo ai = null;
         try {
