@@ -145,6 +145,7 @@ public class Insomnia extends CordovaPlugin {
                 Log.d(TAG, log);
                 Toast.makeText(context, log, Toast.LENGTH_LONG).show();
 
+                turnScreenOn = true;
                 Insomnia.this.switchOnScreenAndForeground(null);
             }
         }, intentFilter);
