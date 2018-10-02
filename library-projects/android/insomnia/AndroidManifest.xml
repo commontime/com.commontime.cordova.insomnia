@@ -49,6 +49,12 @@
             </intent-filter>
         </activity>
 
+	<receiver android:name="com.commontime.cordova.plugins.insomnia.WakeUpReceiver">
+	    <intent-filter>
+		<action android:name="com.commontime.cordova.plugins.insomnia.action_WAKE_UP"/>
+	    </intent-filter>
+	</receiver>
+	    
     </application>
 
 </manifest>
