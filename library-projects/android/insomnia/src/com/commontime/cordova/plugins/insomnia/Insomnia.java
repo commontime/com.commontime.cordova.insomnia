@@ -85,6 +85,25 @@ public class Insomnia extends CordovaPlugin {
 
         Settings.getInstance().setup(cordova.getActivity());
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.commontime.cordova.plugins.insomnia.action_WAKE_UP");
+        cordova.getActivity().registerReceiver(new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+                StringBuilder sb = new StringBuilder();
+                sb.append("Action: " + intent.getAction() + "\n");
+                sb.append("URI: " + intent.toUri(Intent.URI_INTENT_SCHEME).toString() + "\n");
+                String log = sb.toString();
+                Log.d(TAG, log);
+                Toast.makeText(context, log, Toast.LENGTH_LONG).show();
+
+                turnScreenOn = true;
+                Insomnia.this.switchOnScreenAndForeground(null);
+            }
+        }, intentFilter);
+        
         ApplicationInfo ai = null;
         try {
             ai = cordova.getActivity().getPackageManager().getApplicationInfo(cordova.getActivity().getPackageName(), PackageManager.GET_META_DATA);
