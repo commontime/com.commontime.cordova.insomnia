@@ -199,6 +199,7 @@ public class Insomnia extends CordovaPlugin {
     }
 
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        System.out.log(action);
         if( action.equals(ACQUIRE_WAKE_LOCK)) {
             requestWakeLock();
             callbackContext.success();
