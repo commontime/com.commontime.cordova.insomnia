@@ -277,6 +277,8 @@ public class Insomnia extends CordovaPlugin {
             }
         }
 
+        Log.d(TAG, "screenOn: " + screenOn);
+        Log.d(TAG, "foreground: " + foreground);
         if (!(screenOn && foreground)) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
