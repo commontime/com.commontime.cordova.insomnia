@@ -22,9 +22,16 @@ import android.content.BroadcastReceiver;
 import android.util.Log;
 import android.widget.Toast;
 import android.content.IntentFilter;
+import android.os.Looper;
+import android.os.Handler;
+import android.webkit.WebView;
 
+import java.lang.reflect.Field;
+
+import org.apache.cordova.CordovaActivity;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
