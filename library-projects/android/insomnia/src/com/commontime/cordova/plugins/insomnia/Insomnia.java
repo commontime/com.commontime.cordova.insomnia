@@ -195,7 +195,7 @@ public class Insomnia extends CordovaPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cordova.getActivity().unbindService(connection);
+//         cordova.getActivity().unbindService(connection);
     }
 
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
