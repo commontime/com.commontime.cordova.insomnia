@@ -65,6 +65,18 @@ public class Insomnia extends CordovaPlugin {
 
     private Bundle configBundle;
 
+    private static Field appViewField;
+    static {
+        try {
+            Class<?> cdvActivityClass = CordovaActivity.class;
+            Field wvField = cdvActivityClass.getDeclaredField("appView");
+            wvField.setAccessible(true);
+            appViewField = wvField;
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -216,6 +228,51 @@ public class Insomnia extends CordovaPlugin {
         } else if( action.equals(ENABLE_FOREGROUND_SERVICE)) {
             boolean enable = args.getJSONObject(0).getBoolean("enable");
             startForegroundService(enable);
+            return true;
+        } else if( action.equals("wakeTimers")) {
+            try {
+                final CordovaWebView webView = (CordovaWebView) appViewField.get(cordova.getActivity());
+                Handler mainHandler = new Handler(cordova.getActivity().getMainLooper());
+                final Looper myLooper = Looper.myLooper();
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((WebView)webView.getView()).resumeTimers();
+                        ((WebView)webView.getView()).onResume();
+                        new Handler(myLooper).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callbackContext.success();
+                            }
+                        });
+                    }
+                });
+
+            } catch (Throwable e) {
+                callbackContext.error(e.getMessage());
+            }
+            return true;
+        } else if( action.equals("refresh")) {
+            try {
+                final CordovaWebView webView = (CordovaWebView) appViewField.get(cordova.getActivity());
+                Handler mainHandler = new Handler(cordova.getActivity().getMainLooper());
+                final Looper myLooper = Looper.myLooper();
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {                        
+                        ((WebView)webView.getView()).reload();
+                        new Handler(myLooper).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callbackContext.success();
+                            }
+                        });
+                    }
+                });
+
+            } catch (Throwable e) {
+                callbackContext.error(e.getMessage());
+            }
             return true;
         }
 
