@@ -18,6 +18,11 @@ import android.os.RemoteException;
 import android.view.Window;
 import android.view.WindowManager;
 
+import android.content.BroadcastReceiver;
+import android.util.Log;
+import android.widget.Toast;
+import android.content.IntentFilter;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
