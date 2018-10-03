@@ -282,6 +282,29 @@ public class Insomnia extends CordovaPlugin {
                 callbackContext.error(e.getMessage());
             }
             return true;
+         } else if( action.equals("recreate")) {
+            try {
+                final CordovaWebView webView = (CordovaWebView) appViewField.get(cordova.getActivity());
+                Handler mainHandler = new Handler(cordova.getActivity().getMainLooper());
+                final Looper myLooper = Looper.myLooper();
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {    
+                        cordova.getActivity().recreate();
+//                         ((WebView)webView.getView()).reload();
+                        new Handler(myLooper).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callbackContext.success();
+                            }
+                        });
+                    }
+                });
+
+            } catch (Throwable e) {
+                callbackContext.error(e.getMessage());
+            }
+            return true;
         }
 
         return false;
