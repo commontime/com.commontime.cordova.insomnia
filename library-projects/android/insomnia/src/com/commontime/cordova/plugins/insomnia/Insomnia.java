@@ -184,12 +184,42 @@ public class Insomnia extends CordovaPlugin {
         }
 
         foreground = true;
+        
+        try {
+            final CordovaWebView webView = (CordovaWebView) appViewField.get(cordova.getActivity());
+            Handler mainHandler = new Handler(cordova.getActivity().getMainLooper());
+            final Looper myLooper = Looper.myLooper();
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ((WebView)webView.getView()).resumeTimers();
+                    ((WebView)webView.getView()).onResume();
+                }
+            });
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onPause(boolean multitask) {
         super.onPause(multitask);
         foreground = false;
+        
+        try {
+            final CordovaWebView webView = (CordovaWebView) appViewField.get(cordova.getActivity());
+            Handler mainHandler = new Handler(cordova.getActivity().getMainLooper());
+            final Looper myLooper = Looper.myLooper();
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ((WebView)webView.getView()).pauseTimers();
+                    ((WebView)webView.getView()).onPause();
+                }
+            });
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
