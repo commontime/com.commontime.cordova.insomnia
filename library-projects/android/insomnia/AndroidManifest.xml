@@ -48,6 +48,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+	    
+	<service
+            android:name="com.commontime.cordova.plugins.insomnia.BackgroundOperationsManagerService"
+            android:enabled="true"
+            android:process="BackgroundOperationsManagerService"></service>
+
+        <receiver android:name="com.commontime.cordova.plugins.insomnia.AlarmBroadCastReceiver"
+            android:enabled="true"
+            android:process="BackgroundOperationsManagerService"/>
 
     </application>
 
