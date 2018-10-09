@@ -24,6 +24,12 @@ public class BackgroundOperationsManagerService extends Service {
 
     public void onCreate() {
         Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:onCreate");
+    }
+    
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "insomniatest:BackgroundOperationsManagerService:onStartCommand, intent: " + intent);
+        
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmBroadCastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
@@ -43,6 +49,8 @@ public class BackgroundOperationsManagerService extends Service {
             Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm < 19");
             alarmManager.set(AlarmManager.RTC_WAKEUP, 30000, pendingIntent);
         }
+        
+        return Service.START_STICKY;
     }
 
 
