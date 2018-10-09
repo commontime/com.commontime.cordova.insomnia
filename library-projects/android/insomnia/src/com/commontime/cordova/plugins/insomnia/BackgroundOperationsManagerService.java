@@ -37,17 +37,17 @@ public class BackgroundOperationsManagerService extends Service {
         if (Build.VERSION.SDK_INT >= 23)
         {
             Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm >= 23");
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 30000, pendingIntent);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 300000, pendingIntent);
         }
         else if (Build.VERSION.SDK_INT >= 19)
         {
             Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm >= 19");
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, 30000, pendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, 300000, pendingIntent);
         }
         else
         {
             Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm < 19");
-            alarmManager.set(AlarmManager.RTC_WAKEUP, 30000, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, 300000, pendingIntent);
         }
         
         return Service.START_STICKY;
