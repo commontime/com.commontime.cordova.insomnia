@@ -50,7 +50,7 @@ public class BackgroundOperationsManagerService extends Service {
             alarmManager.set(AlarmManager.RTC_WAKEUP, 300000, pendingIntent);
         }
         
-        return Service.START_STICKY;
+        return Service.START_NOT_STICKY;
     }
 
 
