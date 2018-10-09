@@ -7,6 +7,9 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 public class AlarmBroadCastReceiver extends WakefulBroadcastReceiver {
+    
+    private static final String TAG = "AlarmBroadCastReceiver";
+    
     private PowerManager.WakeLock screenWakeLock;
 
     @Override
