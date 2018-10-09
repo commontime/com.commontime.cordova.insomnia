@@ -31,9 +31,9 @@ public class BackgroundOperationsManagerService extends Service {
         Log.i(TAG, "insomniatest:BackgroundOperationsManagerService:onStartCommand, intent: " + intent);
         
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmBroadCastReceiver.class);
+        Intent intent2 = new Intent(this, AlarmBroadCastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
-                ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                ALARM_REQUEST_CODE, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= 23)
         {
             Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm >= 23");
