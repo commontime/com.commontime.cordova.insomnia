@@ -11,6 +11,7 @@ import android.util.Log;
 
 public class BackgroundOperationsManagerService extends Service {
     private static final int ALARM_REQUEST_CODE = 1234;
+    private static final String TAG = "BackgroundOperationsManagerService";
 
     public BackgroundOperationsManagerService() {
     }
