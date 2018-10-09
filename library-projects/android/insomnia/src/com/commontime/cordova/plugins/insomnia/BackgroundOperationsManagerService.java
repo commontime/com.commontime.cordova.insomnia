@@ -22,20 +22,24 @@ public class BackgroundOperationsManagerService extends Service {
     }
 
     public void onCreate() {
+        Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:onCreate");
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmBroadCastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
                 ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= 23)
         {
+            Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm >= 23");
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 30000, pendingIntent);
         }
         else if (Build.VERSION.SDK_INT >= 19)
         {
+            Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm >= 19");
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, 30000, pendingIntent);
         }
         else
         {
+            Log.d(TAG, "insomniatest:BackgroundOperationsManagerService:Setting alarm < 19");
             alarmManager.set(AlarmManager.RTC_WAKEUP, 30000, pendingIntent);
         }
     }
