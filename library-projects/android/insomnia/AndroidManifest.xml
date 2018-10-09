@@ -52,11 +52,11 @@
 	<service
             android:name="com.commontime.cordova.plugins.insomnia.BackgroundOperationsManagerService"
             android:enabled="true"
-            android:process="BackgroundOperationsManagerService"></service>
+            android:process="com.commontime.backgroundprocess"></service>
 
         <receiver android:name="com.commontime.cordova.plugins.insomnia.AlarmBroadCastReceiver"
             android:enabled="true"
-            android:process="BackgroundOperationsManagerService"/>
+            android:process="com.commontime.backgroundprocess"/>
 
     </application>
 
