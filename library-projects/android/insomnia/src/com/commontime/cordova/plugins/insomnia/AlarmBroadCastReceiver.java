@@ -20,7 +20,7 @@ public class AlarmBroadCastReceiver extends WakefulBroadcastReceiver {
         if (screenWakeLock == null)
         {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            screenWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
+            screenWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
                     "ct:Screenlock:");
             Log.d(TAG, "insomniatest:AlarmBroadCastReceiver:acquire");
             screenWakeLock.acquire();
