@@ -25,6 +25,7 @@
     <preference name="FGSERVICESUB" default="Preventing App Stopping" />
     <preference name="APPRESTARTSERVICE" default="false" />
     <preference name="STARTONBOOT" default="false" />
+    <preference name="BACKGROUNDALARM" default="false" />
       
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
         <meta-data android:name="acquireWakeLockOnStart" android:value="$WAKELOCK" />
@@ -34,6 +35,7 @@
         <meta-data android:name="fgServiceSubString" android:value="$FGSERVICESUB" />
         <meta-data android:name="appRestartService" android:value="$APPRESTARTSERVICE" />
         <meta-data android:name="startOnBoot" android:value="$STARTONBOOT" />
+	<meta-data android:name="backgroundAlarm" android:value="$BACKGROUNDALARM" />
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">

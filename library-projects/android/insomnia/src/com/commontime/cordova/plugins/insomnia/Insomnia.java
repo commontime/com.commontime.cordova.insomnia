@@ -109,6 +109,12 @@ public class Insomnia extends CordovaPlugin {
                 cordova.getActivity().bindService(i2, connection, Context.BIND_AUTO_CREATE);
             }
 
+            boolean backgroundAlarm = aBundle.getBoolean("backgroundAlarm");
+            if( backgroundAlarm ) {
+                Intent i3 = new Intent(cordova.getActivity(), BackgroundOperationsManagerService.class);
+                cordova.getActivity().startService(i3);
+            }
+            
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
