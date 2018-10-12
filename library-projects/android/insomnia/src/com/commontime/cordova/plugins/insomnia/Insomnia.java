@@ -125,19 +125,19 @@ public class Insomnia extends CordovaPlugin {
         super.onResume(multiTask);
         Window window = cordova.getActivity().getWindow();
         if( showWhenLocked ) {            
-//             try {
-//                 cordova.getActivity().setShowWhenLocked(true);
-//             } catch(NoSuchMethodError e) {
+            try {
+                cordova.getActivity().setShowWhenLocked(true);
+            } catch(NoSuchMethodError e) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-//             }
+            }
         }
         if( turnScreenOn ) {
             
-//             try {
-//                 cordova.getActivity().setTurnScreenOn(true);
-//             } catch(NoSuchMethodError e) {
+            try {
+               cordova.getActivity().setTurnScreenOn(true);
+            } catch(NoSuchMethodError e) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//             }
+            }
         }
         if( dismissKeyGuard ) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -232,17 +232,17 @@ public class Insomnia extends CordovaPlugin {
                 
                 Window window = cordova.getActivity().getWindow();
                 window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//                 try {
-//                     cordova.getActivity().setShowWhenLocked(false);
-//                 } catch(NoSuchMethodError e) {
+                try {
+                    cordova.getActivity().setShowWhenLocked(false);
+                } catch(NoSuchMethodError e) {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-//                 }
+                }
                 window.clearFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-//                 try {
-//                     cordova.getActivity().setTurnScreenOn(false);
-//                 } catch(NoSuchMethodError e) {
+                try {
+                    cordova.getActivity().setTurnScreenOn(false);
+                } catch(NoSuchMethodError e) {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//                 }
+                }
                 callbackContext.success();
             }
         });
