@@ -110,7 +110,7 @@ public class Insomnia extends CordovaPlugin {
             }
 
             boolean backgroundAlarm = aBundle.getBoolean("backgroundAlarm");
-            if( Build.VERSION.SDK_INT >= 23 && backgroundAlarm ) {
+            if( Build.VERSION.SDK_INT >= 26 && backgroundAlarm ) {
                 Intent i3 = new Intent(cordova.getActivity(), BackgroundOperationsManagerService.class);
                 cordova.getActivity().startService(i3);
             }
