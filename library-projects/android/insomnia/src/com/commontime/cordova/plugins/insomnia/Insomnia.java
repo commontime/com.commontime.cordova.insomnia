@@ -32,6 +32,8 @@ public class Insomnia extends CordovaPlugin {
 
     private static final String TAG = "Insomnia";
 
+    static final String CHANNEL_ID = "Insomnia_Channel_ID";
+    
     private static final int OP = 139690458;
 
     private static final String ACQUIRE_WAKE_LOCK = "acquireWakeLock";
