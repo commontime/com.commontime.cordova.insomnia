@@ -46,9 +46,11 @@ public class ForegroundService extends Service {
                     .setContentIntent(null)                    
                     .setOngoing(true);
             
-            try {
-                b.setChannelId(Insomnia.CHANNEL_ID);
-            } catch(NoSuchMethodError e) {                    
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                try {
+                    b.setChannelId(Insomnia.CHANNEL_ID);
+                } catch(NoSuchMethodError e) {                    
+                }
             }
             
             Notification notification = b.build();
