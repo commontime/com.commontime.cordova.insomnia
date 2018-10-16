@@ -227,6 +227,7 @@ public class Insomnia extends CordovaPlugin {
         if( enable ) {
             fgServiceMainString = configBundle.getString("fgServiceMainString", "Foreground Service");
             fgServiceSubString = configBundle.getString("fgServiceSubString", "Preventing app from being stopped");
+            createNotificationChannel(fgServiceMainString, fgServiceSubString);
             cordova.getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         } else {
             cordova.getActivity().unbindService(mConnection);
