@@ -30,7 +30,7 @@
 #pragma mark -
 #pragma mark Constants
 
-NSString* const kAPPBackgroundJsNamespace = @"cordova.plugins.insomnia";
+NSString* const kAPPBackgroundJsNamespace = @"window.plugins.insomnia";
 NSString* const kAPPBackgroundEventActivate = @"activate";
 NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
 
