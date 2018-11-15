@@ -1,6 +1,6 @@
 {
   "name": "com.commontime.cordova.insomnia",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "description": "Commontime cordova insomnia plugin.",
   "cordova": {
     "id": "com.commontime.cordova.insomnia",
