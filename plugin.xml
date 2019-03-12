@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-  id="com.commontime.cordova.insomnia"
-  version="0.0.52">
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="com.commontime.cordova.insomnia" version="0.0.52">
 
   <name>No Sleep plugin</name>
 
@@ -10,6 +8,16 @@
   </js-module>
 
   <platform name="android">
+
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/Insomnia.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/AlarmBroadCastReceiver.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/BlankActivity.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/BootReceiver.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/ForegroundService.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/LauncherActivity.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/RestarterService.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/Settings.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
+    <source-file src="src/android/com/commontime/cordova/plugins/insomnia/BackgroundOperationsManagerService.java" target-dir="src/com/commontime/cordova/plugins/insomnia" />
 
     <framework src="com.android.support:support-v4:26.1.0" />
 
@@ -28,50 +36,95 @@
     <preference name="APPRESTARTSERVICE" default="false" />
     <preference name="STARTONBOOT" default="false" />
     <preference name="BACKGROUNDALARM" default="false" />
-      
+
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-        <meta-data android:name="acquireWakeLockOnStart" android:value="$WAKELOCK" />
-        <meta-data android:name="requestStopBatteryOptimizationOnStartup" android:value="$BATTOP" />
-        <meta-data android:name="useForegroundService" android:value="$FGSERVICEENABLED" />
-        <meta-data android:name="fgServiceMainString" android:value="$FGSERVICEMAIN" />
-        <meta-data android:name="fgServiceSubString" android:value="$FGSERVICESUB" />
-        <meta-data android:name="appRestartService" android:value="$APPRESTARTSERVICE" />
-        <meta-data android:name="startOnBoot" android:value="$STARTONBOOT" />
-	<meta-data android:name="backgroundAlarm" android:value="$BACKGROUNDALARM" />
+      <meta-data android:name="acquireWakeLockOnStart" android:value="$WAKELOCK" />
+      <meta-data android:name="requestStopBatteryOptimizationOnStartup" android:value="$BATTOP" />
+      <meta-data android:name="useForegroundService" android:value="$FGSERVICEENABLED" />
+      <meta-data android:name="fgServiceMainString" android:value="$FGSERVICEMAIN" />
+      <meta-data android:name="fgServiceSubString" android:value="$FGSERVICESUB" />
+      <meta-data android:name="appRestartService" android:value="$APPRESTARTSERVICE" />
+      <meta-data android:name="startOnBoot" android:value="$STARTONBOOT" />
+      <meta-data android:name="backgroundAlarm" android:value="$BACKGROUNDALARM" />
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="insomniaboot"/>
+      </intent-filter>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <service android:name="com.commontime.cordova.plugins.insomnia.ForegroundService" android:enabled="true" android:exported="false" />
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <service android:name="com.commontime.cordova.plugins.insomnia.RestarterService" android:enabled="true" android:exported="false" />
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <receiver android:name="com.commontime.cordova.plugins.insomnia.BootReceiver" android:enabled="true" android:exported="false">
         <intent-filter>
-		    <action android:name="android.intent.action.VIEW" />
-		    <category android:name="android.intent.category.DEFAULT" />
-		    <data android:scheme="insomniaboot"/>
-	    </intent-filter>
+          <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+          <category android:name="android.intent.category.DEFAULT"></category>
+        </intent-filter>
+      </receiver>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <activity android:name="com.commontime.cordova.plugins.insomnia.BlankActivity">
+        <intent-filter>
+          <action android:name="com.commontime.cordova.plugins.insomnia.BlankActivity"></action>
+          <category android:name="android.intent.category.DEFAULT"></category>
+        </intent-filter>
+      </activity>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <activity android:name="com.commontime.cordova.plugins.insomnia.LauncherActivity">
+        <intent-filter>
+          <action android:name="com.commontime.cordova.insomnia.BOOT" />
+          <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+      </activity>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <service android:name="com.commontime.cordova.plugins.insomnia.BackgroundOperationsManagerService" android:enabled="true" android:process="com.commontime.backgroundprocess">
+      </service>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <receiver android:name="com.commontime.cordova.plugins.insomnia.AlarmBroadCastReceiver" android:enabled="true" android:process="com.commontime.backgroundprocess"/>
     </config-file>
 
     <framework src="gradle/build-extras.gradle" custom="true" type="gradleReference" />
-    <framework src="library-projects/android/insomnia" custom="true" />
-      
+    <framework src="com.pixplicity.easyprefs:library:1.8.1@aar" />
+    <framework src="com.android.support:support-core-utils:26.1.0" />
+
   </platform>
 
   <platform name="ios">
 
     <config-file target="config.xml" parent="/*">
-        <feature name="Insomnia">
-            <param name="ios-package" value="Insomnia" />
-            <param name="onload" value="true" />
-        </feature>
+      <feature name="Insomnia">
+        <param name="ios-package" value="Insomnia" />
+        <param name="onload" value="true" />
+      </feature>
     </config-file>
 
     <preference name="AUTOSTART" default="false" />
 
     <config-file target="*-Info.plist" parent="InsomniaAutoStart">
-    	<string>$AUTOSTART</string>
+      <string>$AUTOSTART</string>
     </config-file>
 
     <config-file target="*-Info.plist" parent="UIBackgroundModes">
-        <array>
-            <string>audio</string>
-        </array>
+      <array>
+        <string>audio</string>
+      </array>
     </config-file>
 
     <resource-file src="appbeep.m4a" />
@@ -79,8 +132,8 @@
     <header-file src="src/ios/Insomnia.h" />
     <source-file src="src/ios/Insomnia.m" />
     <header-file src="src/ios/APPMethodMagic.h" />
-    <source-file src="src/ios/APPMethodMagic.m" />        
+    <source-file src="src/ios/APPMethodMagic.m" />
 
   </platform>
-    
+
 </plugin>
