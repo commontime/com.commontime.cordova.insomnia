@@ -158,7 +158,7 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         workspace = [NSClassFromString(@"LSApplicationWorkspace") new];
         NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
         [workspace openApplicationWithBundleID:bundleId];
-        [NSTimer timerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+         NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
             bool isOpen = [self isAppInForeground];
             if (!isOpen) {
                 // Reason for failing to open up the app is almost certainly because the phone is locked.
@@ -166,6 +166,7 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
                 self->foregroundAfterUnlock = YES;
             }
         }];
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     });
     
     [self execCallback:command];
