@@ -157,15 +157,29 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         PrivateApi_LSApplicationWorkspace* workspace;
         workspace = [NSClassFromString(@"LSApplicationWorkspace") new];
         NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
-        BOOL isOpen = [workspace openApplicationWithBundleID:bundleId];
-        if (!isOpen) {
-            // Reason for failing to open up the app is almost certainly because the phone is locked.
-            // Therefore set the flag to bring to the front after unlock to true.
-            foregroundAfterUnlock = YES;
-        }
+        [workspace openApplicationWithBundleID:bundleId];
+        [NSTimer timerWithTimeInterval:1.0 repeats:NO block:^(NSTimer * _Nonnull timer) {
+            bool isOpen = [self isAppInForeground];
+            if (!isOpen) {
+                // Reason for failing to open up the app is almost certainly because the phone is locked.
+                // Therefore set the flag to bring to the front after unlock to true.
+                self->foregroundAfterUnlock = YES;
+            }
+        }];
     });
     
     [self execCallback:command];
+}
+- (BOOL) isAppInForeground
+{
+    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 #pragma mark -
@@ -214,9 +228,9 @@ NSString* const kAPPBackgroundEventDeactivate = @"deactivate";
         uint64_t state = UINT64_MAX;
         notify_get_state(token, &state);
         if(state == 0) {
-            if (foregroundAfterUnlock) {
+            if (self->foregroundAfterUnlock) {
                 [self switchOnScreenAndForeground:nil];
-                foregroundAfterUnlock = NO;
+                self->foregroundAfterUnlock = NO;
             }
         }
     });
